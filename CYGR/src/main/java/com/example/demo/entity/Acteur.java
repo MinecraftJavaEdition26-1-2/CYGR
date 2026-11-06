@@ -18,10 +18,13 @@ public class Acteur {
     private int id;
 
     @Column(nullable = false, length = 50)
-    private String name;
+    private String nom;
 
     @Column(nullable = false, length = 50)
-    private String familyName;
+    private String prenom;
+
+    @Column (nullable = false, length = 50)
+    private String nationalite;
 
     @ManyToMany(mappedBy = "acteurs")
     private List<Film> films = new ArrayList<Film>();
