@@ -27,9 +27,4 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "seance_id")
     private Seance seance;
-
-    public enum Statut {
-        CONFIRMEE,
-        ANNULEE
-    }
 }
