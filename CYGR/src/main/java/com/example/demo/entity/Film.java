@@ -30,4 +30,11 @@ public class Film {
 
     @Column 
     private Integer duree;
+
+    @Column(nullable = false, length = 1000)
+    private String synopsis;
+
+    // Représente l'url à laquel on peut retrouver l'affiche
+    @Column(nullable = false, length = 100)
+    private String affiche;
 }
