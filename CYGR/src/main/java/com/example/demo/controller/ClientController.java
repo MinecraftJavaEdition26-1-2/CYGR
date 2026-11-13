@@ -63,6 +63,13 @@ public class ClientController {
         return "redirect:/clients";
     }
 
+    @GetMapping("/{id}") // GET /clients/3
+    public String fiche(@PathVariable Long id, Model model) {
+        model.addAttribute("client", clientService.findById(id));
+        return "clients/fiche";
+    }
+
+
 
     
 }

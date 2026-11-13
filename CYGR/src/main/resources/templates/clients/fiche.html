@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fiche client</title>
+</head>
+<body>
+    <h1 th:text="${client.prenom + ' ' + client.nom}">Fiche client</h1>
+    <p th:if="${succes}" th:text="${succes}" style="color:green"></p>
+    <p th:if="${erreur}" th:text="${erreur}" style="color:red"></p>
+
+    <!-- Infos -->
+    <p>Email : <span th:text="${client.email}"></span></p>
+    <p>Date de naissance : <span th:text="${#temporals.format(client.dateNaissance, 'dd/MM/yyyy')}"></span></p>
+    <p>Étudiant : <span th:text="${client.etudiant} ? 'Oui' : 'Non'"></span></p>
+
+    <!-- Carte de fidélité (1-1) -->
+    <h2>Carte de fidélité</h2>
+    <div th:if="${client.carte != null}">
+        <p>Numéro : <span th:text="${client.carte.numero}"></span></p>
+        <p>Points : <span th:text="${client.carte.points}"></span> / 100</p>
+        <p>Créée le : <span th:text="${#temporals.format(client.carte.dateCreation, 'dd/MM/yyyy')}"></span></p>
+    </div>
+    <p th:if="${client.carte == null}">Ce client n'a pas encore de carte.</p>
+
+    <!-- Historique des réservations (1-N) -->
+    <h2>Réservations</h2>
+    <p th:if="${client.reservations.isEmpty()}">Aucune réservation.</p>
+    <table th:unless="${client.reservations.isEmpty()}">
+        <tr>
+            <th>Film</th><th>Séance</th><th>Places</th><th>Prix</th><th>Statut</th>
+        </tr>
+        <tr th:each="r : ${client.reservations}">
+            <td th:text="${r.seance.film.nom}"></td>
+            <td th:text="${#temporals.format(r.seance.dateHeureDebut, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${r.nombrePlaces}"></td>
+            <td th:text="${r.prixTotal} + ' €'"></td>
+            <td th:text="${r.statut}"></td>
+        </tr>
+    </table>
+
+    <!-- Actions -->
+    <a th:href="@{/clients/{id}/modifier(id=${client.id})}">Modifier</a>
+    <form th:action="@{/clients/{id}/supprimer(id=${client.id})}" method="post"
+          style="display:inline" onsubmit="return confirm('Supprimer ce client ?')">
+        <button type="submit">Supprimer</button>
+    </form>
+    <br>
+    <a th:href="@{/clients}">Retour à la liste</a>
+</body>
+</html>

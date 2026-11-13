@@ -23,8 +23,7 @@
     <br>
 
     <div th:each="client : ${clients}">
-        <h2 th:text="${client.prenom}">Prénom du client</h2>
-        <p>Nom : <span th:text="${client.nom}"></span></p>
+        <h2><a th:href="@{/clients/{id}(id=${client.id})}" th:text="${client.prenom + ' ' + client.nom}"></a></h2>
         <p>Email : <span th:text="${client.email}"></span></p>
         <p>Date de naissance : <span th:text="${client.dateNaissance}"></span></p>
         <p>Est étudiant ? : <span th:text="${client.isEtudiant}"></span></p>
