@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>PAGE D'AJOUT DE FILM</h1>
+
+    <form th:action="@{/films/enregistrer}" th:object="${film}" method="post">
+        <div>
+            <label>Nom</label>
+            <input type="text" id="nom" required th:field="*{nom}">
+        </div>
+        <div>
+            <label>Année de sortie</label>
+            <input type="number" id="anneeSortie" required th:field="*{anneeSortie}">
+        </div>
+        <div>
+            <label>Durée en minutes</label>
+            <input type="number" id="duree" required th:field="*{duree}">
+        </div>
+        <div>
+            <label>URL de l'affiche</label>
+            <input type="text" id="affiche" required th:field="*{affiche}">
+        </div>
+        <div>
+            <label>Synopsis</label>
+            <input type="text" id="synopsis" required th:field="*{synopsis}">
+        </div>
+        <div>
+            <label>Age minimum</label>
+            <input type="number" id="age" required th:field="*{age}">
+        </div>
+        <button type="submit">Enregistrer le film</button>
+    </form>
+
+    <a th:href="@{/films}">Retour à la liste des films</a>
+
+
+</body>
+</html>

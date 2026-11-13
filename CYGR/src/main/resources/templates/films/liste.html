@@ -10,6 +10,8 @@
 
     <p th:if="${films.isEmpty()}">Aucun film disponible pour le moment</p>
 
+    <a th:href="@{/films/nouveau}" class="btn btn-primary">Ajouter un film</a>
+
     <div th:each="film : ${films}">
         <h2 th:text="${film.nom}">Nom du film</h2>
         <img th:src="${film.affiche}" th:alt="${film.nom}" width="200">
