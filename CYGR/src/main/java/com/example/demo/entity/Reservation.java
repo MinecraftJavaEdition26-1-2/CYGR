@@ -24,10 +24,10 @@ public class Reservation {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    /* 
+    
     @ManyToOne
     @JoinColumn(name = "seance_id")
     private Seance seance;
-    */
+    
 }
 
