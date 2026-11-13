@@ -26,6 +26,7 @@
         <p>Email : <span th:text="${client.email}"></span></p>
         <p>Date de naissance : <span th:text="${client.dateNaissance}"></span></p>
         <p>Est étudiant ? : <span th:text="${client.isEtudiant}"></span></p>
+        <a th:href="@{/clients/{id}/modifier(id=${client.id})}">Modifier</a>
     </div>
 
 

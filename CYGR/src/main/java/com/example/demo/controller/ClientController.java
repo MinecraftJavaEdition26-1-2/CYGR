@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,11 +31,17 @@ public class ClientController {
         return "clients/liste";     //affiche template/clients/liste.htm
     }
 
+    @GetMapping("/{id}/modifier") // GET /clients/3/modifier
+    public String modifier(@PathVariable Long id, Model model) {
+        model.addAttribute("clients", clientService.findById(id));
+        return "clients/formulaire";
+    }
+
 
     @GetMapping("/nouveau") // GET /clients/nouveau
     public String nouveau(Model model) {
         model.addAttribute("clients", new Client());
-        return "clients/formulaireAjoutClient"; 
+        return "clients/formulaire"; 
     }
 
     @PostMapping("/enregistrer") // POST /clients/enregistrer

@@ -23,8 +23,19 @@ public class ClientService {
     }
 
     public void enregistrer(Client client){
-        clientRepository.save(client);
+        if (client.getId() == null) {          // création
+            clientRepository.save(client);
+            return;
+        }
+        Client existant = findById(client.getId());   // modification
+        existant.setNom(client.getNom());
+        existant.setPrenom(client.getPrenom());
+        existant.setEmail(client.getEmail());
+        existant.setDateNaissance(client.getDateNaissance());
+        existant.setEtudiant(client.isEtudiant());
+        clientRepository.save(existant);
     }
+
 
     @Transactional
     public void supprimer(Long id){

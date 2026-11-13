@@ -6,9 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>PAGE D'AJOUT DE CLIENT</h1>
+    <h1 th:text="${clients.id == null} ? 'Nouveau client' : 'Modifier le client'"></h1>
 
     <form th:action="@{/clients/enregistrer}" th:object="${clients}" method="post">
+        <input type="hidden" th:field="*{id}">
         <div>
             <label>Nom</label>
             <input type="text" id="nom" required th:field="*{nom}">
