@@ -7,6 +7,8 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.validation.constraints.Past;
+
 
 @Entity
 @Getter @Setter
@@ -17,7 +19,10 @@ public class Client {
     private String nom;
     private String prenom;
     private String email;
+
+    @Past
     private LocalDate dateNaissance;
+    
     private boolean isEtudiant;
     private boolean isAdmin;
 

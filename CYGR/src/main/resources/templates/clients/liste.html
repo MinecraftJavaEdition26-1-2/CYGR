@@ -8,6 +8,12 @@
 <body>
     <h1>Clients</h1>
 
+    <form th:action="@{/clients}" method="get">
+        <input type="text" name="recherche" th:value="${recherche}" placeholder="Nom ou email">
+        <button type="submit">Rechercher</button>
+        <a th:href="@{/clients}">Effacer</a>
+    </form>
+
     <p th:if="${clients.isEmpty()}">Aucun client pour le moment</p>
 
     <a th:href="@{/clients/nouveau}" class="btn btn-primary">Ajouter un client</a>
