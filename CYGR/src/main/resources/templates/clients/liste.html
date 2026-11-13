@@ -7,6 +7,9 @@
 </head>
 <body>
     <h1>Clients</h1>
+    <p th:if="${succes}" th:text="${succes}" style="color:green"></p>
+    <p th:if="${erreur}" th:text="${erreur}" style="color:red"></p>
+
 
     <form th:action="@{/clients}" method="get">
         <input type="text" name="recherche" th:value="${recherche}" placeholder="Nom ou email">
@@ -18,7 +21,6 @@
 
     <a th:href="@{/clients/nouveau}" class="btn btn-primary">Ajouter un client</a>
     <br>
-    <a th:href="@{/clients/formulaireSupprimer}" class="btn btn-primary">Supprimer un client</a>
 
     <div th:each="client : ${clients}">
         <h2 th:text="${client.prenom}">Prénom du client</h2>
@@ -27,6 +29,10 @@
         <p>Date de naissance : <span th:text="${client.dateNaissance}"></span></p>
         <p>Est étudiant ? : <span th:text="${client.isEtudiant}"></span></p>
         <a th:href="@{/clients/{id}/modifier(id=${client.id})}">Modifier</a>
+        <form th:action="@{/clients/{id}/supprimer(id=${client.id})}" method="post"
+            style="display:inline" onsubmit="return confirm('Supprimer ce client ?')">
+            <button type="submit">Supprimer</button>
+        </form>
     </div>
 
 

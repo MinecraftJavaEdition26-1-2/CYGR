@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Client;
+import com.example.demo.exception.RegleMetierException;
 import com.example.demo.service.ClientService;
 
 
@@ -49,6 +51,18 @@ public class ClientController {
         clientService.enregistrer(client);
         return "redirect:/clients";
     }
+
+    @PostMapping("/{id}/supprimer") // POST /clients/3/supprimer
+    public String supprimer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            clientService.supprimer(id);
+            redirectAttributes.addFlashAttribute("succes", "Client supprimé");
+        } catch (RegleMetierException e) {
+            redirectAttributes.addFlashAttribute("erreur", e.getMessage());
+        }
+        return "redirect:/clients";
+    }
+
 
     
 }
