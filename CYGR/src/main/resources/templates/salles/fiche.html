@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${salle.nom}">Fiche de la salle</title>
+</head>
+<body>
+    <a th:href="@{/salles}">← Retour à la liste des salles</a>
+
+    <h1 th:text="${salle.nom}">Nom de la salle</h1>
+    <p>Capacité : <span th:text="${salle.capacite}">100</span> places</p>
+
+    <h2>Séances programmées</h2>
+
+    <p th:if="${salle.seances.isEmpty()}">Aucune séance prévue dans cette salle</p>
+
+    <ul th:unless="${salle.seances.isEmpty()}">
+        <li th:each="seance : ${salle.seances}">
+            <span th:text="${#temporals.format(seance.dateHeureDebut, 'dd/MM/yyyy HH:mm')}">01/01/2026 20:30</span>
+            -
+            <span th:text="${seance.film.nom}">Nom du film</span>
+            (<span th:text="${seance.version}">VF</span>)
+        </li>
+    </ul>
+
+</body>
+</html>
