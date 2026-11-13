@@ -23,4 +23,12 @@ public class FilmService {
         filmRepository.save(film);
     }
 
+    public void supprimer(Film film){
+        filmRepository.delete(film);
+    }
+
+    public void deleteById(long id){
+        filmRepository.deleteById(id);
+    }
+
 }

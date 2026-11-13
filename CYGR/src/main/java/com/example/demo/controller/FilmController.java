@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.demo.entity.Film;
 import com.example.demo.service.FilmService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -39,6 +41,20 @@ public class FilmController {
         filmService.enregistrer(film);
         return "redirect:/films";
     }
+
+    @GetMapping("/formulaireSupprimer") // GET /films/formulaireSupprimer
+    public String formulaireSupprimer(Model model) {
+        model.addAttribute("films", filmService.findAll());
+        return "films/formulaireSupprimer";
+    }
+
+    @PostMapping("/supprimer") // POST /films/supprimer
+    public String supprimer(@RequestParam long id) {
+        filmService.deleteById(id);
+        return "redirect:/films";
+    }
+    
+    
     
     
     
