@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>PAGE D'AJOUT DE CLIENT</h1>
+
+    <form th:action="@{/clients/enregistrer}" th:object="${clients}" method="post">
+        <div>
+            <label>Nom</label>
+            <input type="text" id="nom" required th:field="*{nom}">
+        </div>
+        <div>
+            <label>Prenom</label>
+            <input type="text" id="prenom" required th:field="*{prenom}">
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="email" id="email" required th:field="*{email}">
+        </div>
+        <div>
+            <label>Date de naissance</label>
+            <input type="date" id="dateNaissance" required th:field="*{dateNaissance}">
+        </div>
+        <div>
+            <label for="etudiant">Étudiant ?</label>
+            <input type="checkbox" id="etudiant" th:field="*{etudiant}">
+        </div>
+
+        <button type="submit">Enregistrer le client</button>
+    </form>
+
+    <a th:href="@{/clients}">Retour à la liste des clients</a>
+
+
+</body>
+</html>

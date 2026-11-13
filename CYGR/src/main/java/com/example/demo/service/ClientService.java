@@ -18,4 +18,8 @@ public class ClientService {
     public List<Client> findAll(){
         return clientRepository.findAll();
     }
+
+    public void enregistrer(Client client){
+        clientRepository.save(client);
+    }
 }

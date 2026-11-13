@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -62,7 +63,7 @@ public class ReservationService {
         reservation.setClient(client);
         reservation.setSeance(seance);
         reservation.setNombrePlaces(nombrePlaces);
-        reservation.setPrixTotal(nombrePlaces * seance.getPrix());
+        reservation.setPrixTotal(seance.getPrix().multiply(BigDecimal.valueOf(nombrePlaces)));
         reservation.setDateReservation(LocalDateTime.now());
         return reservationRepository.save(reservation);
         }

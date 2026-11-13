@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des clients</title>
+</head>
+<body>
+    <h1>Clients</h1>
+
+    <p th:if="${clients.isEmpty()}">Aucun client pour le moment</p>
+
+    <a th:href="@{/clients/nouveau}" class="btn btn-primary">Ajouter un client</a>
+    <br>
+    <a th:href="@{/clients/formulaireSupprimer}" class="btn btn-primary">Supprimer un client</a>
+
+    <div th:each="client : ${clients}">
+        <h2 th:text="${client.prenom}">Prénom du client</h2>
+        <p>Nom : <span th:text="${client.nom}"></span></p>
+        <p>Email : <span th:text="${client.email}"></span></p>
+        <p>Date de naissance : <span th:text="${client.dateNaissance}"></span></p>
+        <p>Est étudiant ? : <span th:text="${client.isEtudiant}"></span></p>
+    </div>
+
+
+</body>
+</html>

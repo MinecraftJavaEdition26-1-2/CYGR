@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,8 @@ public class Seance {
     @Column(nullable = false)
     private LocalDateTime dateHeureDebut;
 
-    @Column(nullable = false)
-    private Integer prix;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal prix;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 2)
