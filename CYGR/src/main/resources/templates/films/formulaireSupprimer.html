@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>PAGE POUR SUPPRIMER DES FILMS</h1>
+
+    <form th:action="@{/films/supprimer}" th:each="film : ${films}" method="post">
+        <div>
+            <input type="hidden" name="id" th:value="${film.id}">
+            <h2 th:text="${film.nom}"></h2>
+            <img th:src="${film.affiche}" th:alt="${film.nom}">
+            <p>Synopsis : <span th:text="${film.synopsis}"></span></p>
+            <p>Age minimum : <span th:text="${film.age}"></span> ans</p>
+            <p>Durée du film : <span th:text="${film.duree}"></span> minutes</p>
+            <button type="submit">Supprimer ce film de la base de donnée</button>
+        </div>
+    </form>
+
+
+</body>
+</html>
