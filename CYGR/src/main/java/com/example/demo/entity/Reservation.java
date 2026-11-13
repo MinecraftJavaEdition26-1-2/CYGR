@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
@@ -14,8 +13,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer nombrePlaces;
-    private BigDecimal prixTotal;
-    private LocalDateTime date;
+    private Integer prixTotal;
+    private LocalDateTime dateReservation;
 
     @Enumerated(EnumType.STRING)
     private Statut statut = Statut.CONFIRMEE;
