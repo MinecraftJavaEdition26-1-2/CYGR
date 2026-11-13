@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des salles</title>
+</head>
+<body>
+    <h1>Salles</h1>
+
+    <p th:if="${salles.isEmpty()}">Aucune salle disponible pour le moment</p>
+
+    <div th:each="salle : ${salles}">
+        <h2 th:text="${salle.nom}">Nom de la salle</h2>
+        <p>Capacité : <span th:text="${salle.capacite}">100</span> places</p>
+    </div>
+
+</body>
+</html>
