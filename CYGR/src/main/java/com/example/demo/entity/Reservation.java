@@ -30,6 +30,10 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private Statut statut = Statut.CONFIRMEE;
 
+    // true si une place a été offerte grâce à la carte de fidélité
+    private Boolean placeOfferte = false;
+
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

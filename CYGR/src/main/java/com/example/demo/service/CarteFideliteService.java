@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.CarteFidelite;
 import com.example.demo.entity.Client;
@@ -11,14 +12,15 @@ import com.example.demo.exception.RegleMetierException;
 import com.example.demo.repository.CarteFideliteRepository;
 import com.example.demo.repository.ClientRepository;
 
-import org.springframework.transaction.annotation.Transactional;
-
 @Service
 public class CarteFideliteService {
     
     private final CarteFideliteRepository carteFideliteRepository;
     private final ClientService clientService;
     private final ClientRepository clientRepository;
+    public static final int POINTS_PAR_PLACE = 10;
+    public static final int SEUIL_PLACE_OFFERTE = 100;
+
 
     public CarteFideliteService(CarteFideliteRepository carteFideliteRepository, ClientService clientService, ClientRepository clientRepository){
         this.carteFideliteRepository = carteFideliteRepository;
@@ -49,6 +51,36 @@ public class CarteFideliteService {
         carte.setClient(client);
 
         clientRepository.save(client); // la carte est enregistrée avec (cascade ALL)
+    }
+
+
+    /**
+     * Règle de fidélité, appliquée à chaque nouvelle réservation :
+     *  - si la carte a au moins 100 points : 1 place offerte et 100 points retirés
+     *  - ensuite, 10 points par place payée
+     * Retourne true si une place est offerte.
+     */
+    @Transactional
+    public boolean appliquerFidelite(Client client, int nombrePlaces) {
+        CarteFidelite carte = client.getCarte();
+
+        // Pas de carte : pas de points, pas de place offerte
+        if (carte == null) {
+            return false;
+        }
+
+        // 1) Place offerte si le seuil est atteint (avec les points d'AVANT cette réservation)
+        boolean placeOfferte = carte.getPoints() >= SEUIL_PLACE_OFFERTE;
+        if (placeOfferte) {
+            carte.setPoints(carte.getPoints() - SEUIL_PLACE_OFFERTE);
+        }
+
+        // 2) Points crédités sur les places payées uniquement
+        int placesPayees = placeOfferte ? nombrePlaces - 1 : nombrePlaces;
+        carte.setPoints(carte.getPoints() + placesPayees * POINTS_PAR_PLACE);
+
+        carteFideliteRepository.save(carte);
+        return placeOfferte;
     }
 
 }

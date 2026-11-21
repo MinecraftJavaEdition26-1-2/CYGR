@@ -15,6 +15,8 @@ import com.example.demo.exception.RegleMetierException;
 import com.example.demo.service.CarteFideliteService;
 import com.example.demo.service.ClientService;
 import com.example.demo.service.ReservationService;
+import com.example.demo.entity.Reservation;
+
 
 
 @Controller 
@@ -92,12 +94,17 @@ public class ClientController {
     public String reserver(@PathVariable Long id, @RequestParam Long seanceId,
                         @RequestParam int nombrePlaces, RedirectAttributes redirectAttributes) {
         try {
-            reservationService.reserver(id, seanceId, nombrePlaces);
-            redirectAttributes.addFlashAttribute("succes", "Réservation confirmée");
+            Reservation r = reservationService.reserver(id, seanceId, nombrePlaces);
+            String message = "Réservation confirmée";
+            if (Boolean.TRUE.equals(r.getPlaceOfferte())) {
+                message += " : 1 place offerte grâce à la carte de fidélité !";
+            }
+            redirectAttributes.addFlashAttribute("succes", message);
         } catch (RegleMetierException e) {
             redirectAttributes.addFlashAttribute("erreur", e.getMessage());
         }
         return "redirect:/clients/" + id;
     }
+
   
 }

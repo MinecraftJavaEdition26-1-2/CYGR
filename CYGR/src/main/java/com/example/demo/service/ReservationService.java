@@ -24,12 +24,16 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final SeanceRepository seanceRepository;
     private final ClientRepository clientRepository;
+    private final CarteFideliteService carteFideliteService;
 
-    public ReservationService(ReservationRepository reservationRepository, SeanceRepository seanceRepository, ClientRepository clientRepository) {
+    public ReservationService(ReservationRepository reservationRepository, SeanceRepository seanceRepository,
+                              ClientRepository clientRepository, CarteFideliteService carteFideliteService) {
         this.reservationRepository = reservationRepository;
         this.seanceRepository = seanceRepository;
         this.clientRepository = clientRepository;
+        this.carteFideliteService = carteFideliteService;
     }
+
 
     //nb place restante pour cette sceance
     public int placesRestantes(Seance seance) {
@@ -60,15 +64,21 @@ public class ReservationService {
             throw new RegleMetierException("Film interdit aux moins de " + ageMinimum + " ans");
         }
 
+        // Fidélité
+        boolean placeOfferte = carteFideliteService.appliquerFidelite(client, nombrePlaces);
+        int placesPayantes = placeOfferte ? nombrePlaces - 1 : nombrePlaces;
+
         // Tout est bon, on enregistre.
         Reservation reservation = new Reservation();
         reservation.setClient(client);
         reservation.setSeance(seance);
         reservation.setNombrePlaces(nombrePlaces);
-        reservation.setPrixTotal(seance.getPrix().multiply(BigDecimal.valueOf(nombrePlaces)));
+        reservation.setPlaceOfferte(placeOfferte);
+        reservation.setPrixTotal(seance.getPrix().multiply(BigDecimal.valueOf(placesPayantes)));
         reservation.setDateReservation(LocalDateTime.now());
         return reservationRepository.save(reservation);
     }
+
 
     public List<Seance> seancesAVenir() {
         LocalDateTime maintenant = LocalDateTime.now();
