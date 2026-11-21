@@ -53,6 +53,22 @@ public class FilmController {
         filmService.deleteById(id);
         return "redirect:/films";
     }
+
+    @GetMapping("/formulaireModifier") // GET /films/formulaireModifier
+    public String formulaireModifier(Model model) {
+        model.addAttribute("films", filmService.findAll());
+        return "films/formulaireModifier";
+    }
+
+    @GetMapping("/modifierFilm") // GET /films/modifierFilm
+    public String modifierFilm(@RequestParam long id, Model model) {
+        model.addAttribute("film", filmService.findById(id));
+        return "films/modifierFilm";
+    }
+
+    
+    
+    
     
     
     

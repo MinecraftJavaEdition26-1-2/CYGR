@@ -8,6 +8,8 @@
 <body>
     <h1>PAGE POUR SUPPRIMER DES FILMS</h1>
 
+    <a th:href="@{/films}" >Retour sur la liste des films</a>
+
     <form th:action="@{/films/supprimer}" th:each="film : ${films}" method="post">
         <div>
             <input type="hidden" name="id" th:value="${film.id}">
@@ -19,6 +21,7 @@
             <button type="submit">Supprimer ce film de la base de donnée</button>
         </div>
     </form>
+    
 
 
 </body>
