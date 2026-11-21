@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.Comparator;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +68,16 @@ public class ReservationService {
         reservation.setPrixTotal(seance.getPrix().multiply(BigDecimal.valueOf(nombrePlaces)));
         reservation.setDateReservation(LocalDateTime.now());
         return reservationRepository.save(reservation);
-        }
+    }
+
+    public List<Seance> seancesAVenir() {
+        LocalDateTime maintenant = LocalDateTime.now();
+        return seanceRepository.findAll().stream()
+                .filter(s -> s.getDateHeureDebut().isAfter(maintenant))
+                .sorted(Comparator.comparing(Seance::getDateHeureDebut))
+                .toList();
+    }
+
 
 
 }

@@ -45,6 +45,19 @@
         </tr>
     </table>
 
+
+    <h2>Nouvelle réservation</h2>
+    <p th:if="${seances.isEmpty()}">Aucune séance à venir.</p>
+    <form th:unless="${seances.isEmpty()}" th:action="@{/clients/{id}/reserver(id=${client.id})}" method="post">
+        <select name="seanceId" required>
+            <option th:each="s : ${seances}" th:value="${s.id}"
+                    th:text="${s.film.nom + ' – ' + #temporals.format(s.dateHeureDebut, 'dd/MM HH:mm') + ' – ' + s.salle.nom + ' – ' + s.prix + ' €'}">
+            </option>
+        </select>
+        <input type="number" name="nombrePlaces" min="1" value="1" required>
+        <button type="submit">Réserver</button>
+    </form>
+
     <!-- Actions -->
     <a th:href="@{/clients/{id}/modifier(id=${client.id})}">Modifier</a>
     <form th:action="@{/clients/{id}/supprimer(id=${client.id})}" method="post"
