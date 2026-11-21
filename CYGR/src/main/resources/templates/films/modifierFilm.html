@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier ce film</title>
+</head>
+<body>
+    <h1>Modifier le film</h1>
+
+    <form th:action="@{/films/enregistrer}" th:object="${film}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div>
+            <label>Nom</label>
+            <input type="text" required th:field="*{nom}">
+        </div>
+        <div>
+            <label>Année de sortie</label>
+            <input type="number" required th:field="*{anneeSortie}">
+        </div>
+        <div>
+            <label>Durée en minutes</label>
+            <input type="number" required th:field="*{duree}">
+        </div>
+        <div>
+            <label>URL de l'affiche</label>
+            <input type="text" required th:field="*{affiche}">
+        </div>
+        <div>
+            <label>Synopsis</label>
+            <input type="text" required th:field="*{synopsis}">
+        </div>
+        <div>
+            <label>Age minimum</label>
+            <input type="number" required th:field="*{age}">
+        </div>
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+
+    <a th:href="@{/films}">Retour à la liste des films</a>
+</body>
+</html>
