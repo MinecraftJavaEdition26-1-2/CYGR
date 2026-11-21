@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier cet acteur</title>
+</head>
+<body>
+    <h1>Modifier l'acteur</h1>
+
+    <form th:action="@{/acteurs/enregistrer}" th:object="${acteur}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div>
+            <label>Nom</label>
+            <input type="text" required th:field="*{nom}">
+        </div>
+        <div>
+            <label>Prénom</label>
+            <input type="text" required th:field="*{prenom}">
+        </div>
+        <div>
+            <label>Nationalité</label>
+            <input type="text" required th:field="*{nationalite}">
+        </div>
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+
+    <a th:href="@{/acteurs}">Retour à la liste des acteurs</a>
+</body>
+</html>

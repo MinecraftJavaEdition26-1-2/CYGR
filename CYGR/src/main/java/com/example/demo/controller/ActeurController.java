@@ -1,11 +1,16 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Acteur;
 import com.example.demo.repository.ActeurRepository;
 import com.example.demo.service.ActeurService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller 
 @RequestMapping("/acteurs")
@@ -25,6 +30,39 @@ public class ActeurController {
         return "acteurs/liste";
     }
 
+    @GetMapping("/nouveau") // GET /acteurs/nouveau
+    public String nouveau(Model model) {
+        model.addAttribute("acteur", new Acteur());
+        return "acteurs/formulaireAjout";
+    }
 
-    
+    @PostMapping("/enregistrer") // POST /acteurs/enregistrer
+    public String enregistrer(@ModelAttribute Acteur acteur) {
+        acteurService.enregistrer(acteur);
+        return "redirect:/acteurs";
+    }
+
+    @GetMapping("/formulaireSupprimer") // GET /acteurs/formulaireSupprimer
+    public String formulaireSupprimer(Model model) {
+        model.addAttribute("acteurs", acteurService.findAll());
+        return "acteurs/formulaireSupprimer";
+    }
+
+    @PostMapping("/supprimer") // POST /acteurs/supprimer
+    public String supprimer(@RequestParam long id) {
+        acteurService.deleteById(id);
+        return "redirect:/acteurs";
+    }
+
+    @GetMapping("/formulaireModifier") // GET /acteurs/formulaireModifier
+    public String formulaireModifier(Model model) {
+        model.addAttribute("acteurs", acteurService.findAll());
+        return "acteurs/formulaireModifier";
+    }
+
+    @GetMapping("/modifierActeur") // GET /acteurs/modifierActeur?id=...
+    public String modifierActeur(@RequestParam long id, Model model) {
+        model.addAttribute("acteur", acteurService.findById(id));
+        return "acteurs/modifierActeur";
+    }
 }

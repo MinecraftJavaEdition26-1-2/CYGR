@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des films</title>
+    <title>Liste des acteurs</title>
 </head>
 <body>
     <h1>Acteurs</h1>
 
-    <p th:if="${acteurs.isEmpty()}">Aucun film disponible pour le moment</p>
+    <a th:href="@{/acteurs/nouveau}">Ajouter un acteur</a>
+    <br>
+    <a th:href="@{/acteurs/formulaireSupprimer}">Supprimer un acteur</a>
+    <br>
+    <a th:href="@{/acteurs/formulaireModifier}">Modifier un acteur</a>
+
+    <p th:if="${acteurs.isEmpty()}">Aucun acteur disponible pour le moment</p>
 
     <div th:each="acteur : ${acteurs}">
-        <h2 th:text="${acteur.nom + ' ' + acteur.prenom}">Nom de l'acteur</h2>
+        <h2>Nom et Prénom :     <span th:text="${acteur.nom + ' ' + acteur.prenom}"></span></h2>
         <p>Nationalité : <span th:text="${acteur.nationalite}"></span> </p>
     </div>
 
