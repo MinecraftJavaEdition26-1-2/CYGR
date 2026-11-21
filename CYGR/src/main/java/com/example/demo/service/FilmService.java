@@ -31,4 +31,8 @@ public class FilmService {
         filmRepository.deleteById(id);
     }
 
+    public Film findById(long id){
+        return filmRepository.findById(id).orElseThrow();
+    }
+
 }

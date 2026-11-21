@@ -3,18 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des films</title>
+    <title>Liste des acteurs</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Acteurs</h1>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <p th:if="${acteurs.isEmpty()}">Aucun film disponible pour le moment</p>
+    <main class="container page">
+        <div class="page-head">
+            <h1>Acteurs</h1>
+            <div class="actions">
+                <a th:href="@{/acteurs/formulaireModifier}" class="btn">Modifier un acteur</a>
+                <a th:href="@{/acteurs/formulaireSupprimer}" class="btn">Supprimer un acteur</a>
+                <a th:href="@{/acteurs/nouveau}" class="btn btn-primary">Ajouter un acteur</a>
+            </div>
+        </div>
 
-    <div th:each="acteur : ${acteurs}">
-        <h2 th:text="${acteur.nom + ' ' + acteur.prenom}">Nom de l'acteur</h2>
-        <p>Nationalité : <span th:text="${acteur.nationalite}"></span> </p>
-    </div>
+        <p class="vide" th:if="${acteurs.isEmpty()}">Aucun acteur disponible pour le moment</p>
 
-
+        <div class="lignes">
+            <div class="ligne" th:each="acteur : ${acteurs}">
+                <div class="ligne-texte">
+                    <span class="ligne-titre" th:text="${acteur.nom + ' ' + acteur.prenom}">Nom Prénom</span>
+                    <span class="ligne-meta" th:text="${acteur.nationalite}">Nationalité</span>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

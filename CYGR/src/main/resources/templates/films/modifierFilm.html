@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier ce film</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container page">
+        <a th:href="@{/films}" class="retour">← Retour à la liste des films</a>
+
+        <div class="page-head">
+            <h1>Modifier le film</h1>
+        </div>
+
+        <form class="formulaire" th:action="@{/films/enregistrer}" th:object="${film}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="champ">
+                <label>Nom</label>
+                <input type="text" required th:field="*{nom}">
+            </div>
+            <div class="champs-trio">
+                <div class="champ">
+                    <label>Année de sortie</label>
+                    <input type="number" required th:field="*{anneeSortie}">
+                </div>
+                <div class="champ">
+                    <label>Durée en minutes</label>
+                    <input type="number" required th:field="*{duree}">
+                </div>
+                <div class="champ">
+                    <label>Age minimum</label>
+                    <input type="number" required th:field="*{age}">
+                </div>
+            </div>
+            <div class="champ">
+                <label>URL de l'affiche</label>
+                <input type="text" required th:field="*{affiche}">
+            </div>
+            <div class="champ">
+                <label>Synopsis</label>
+                <textarea required th:field="*{synopsis}"></textarea>
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supprimer un acteur</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container page">
+        <a th:href="@{/acteurs}" class="retour">← Retour à la liste des acteurs</a>
+
+        <div class="page-head">
+            <h1>Supprimer un acteur</h1>
+        </div>
+
+        <p class="vide" th:if="${acteurs.isEmpty()}">Aucun acteur à supprimer</p>
+
+        <div class="lignes">
+            <form class="ligne" th:action="@{/acteurs/supprimer}" th:each="acteur : ${acteurs}" method="post">
+                <input type="hidden" name="id" th:value="${acteur.id}">
+                <div class="ligne-texte">
+                    <span class="ligne-titre" th:text="${acteur.nom + ' ' + acteur.prenom}">Nom Prénom</span>
+                    <span class="ligne-meta" th:text="${acteur.nationalite}">Nationalité</span>
+                </div>
+                <button type="submit" class="btn btn-danger">Supprimer cet acteur</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,6 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYGR</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-  <h1 th:text="${message}">placeholder</h1>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container accueil">
+        <h1>CYGR</h1>
+        <p th:text="${message}">placeholder</p>
+        <div class="actions">
+            <a th:href="@{/films}" class="btn btn-primary">Voir les films</a>
+            <a th:href="@{/acteurs}" class="btn">Voir les acteurs</a>
+        </div>
+    </main>
 </body>
 </html>

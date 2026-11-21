@@ -1,25 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="https://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Supprimer un film</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>PAGE POUR SUPPRIMER DES FILMS</h1>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <form th:action="@{/films/supprimer}" th:each="film : ${films}" method="post">
-        <div>
-            <input type="hidden" name="id" th:value="${film.id}">
-            <h2 th:text="${film.nom}"></h2>
-            <img th:src="${film.affiche}" th:alt="${film.nom}">
-            <p>Synopsis : <span th:text="${film.synopsis}"></span></p>
-            <p>Age minimum : <span th:text="${film.age}"></span> ans</p>
-            <p>Durée du film : <span th:text="${film.duree}"></span> minutes</p>
-            <button type="submit">Supprimer ce film de la base de donnée</button>
+    <main class="container page">
+        <a th:href="@{/films}" class="retour">← Retour à la liste des films</a>
+
+        <div class="page-head">
+            <h1>Supprimer un film</h1>
         </div>
-    </form>
 
-
+        <div class="lignes">
+            <form class="ligne" th:action="@{/films/supprimer}" th:each="film : ${films}" method="post">
+                <input type="hidden" name="id" th:value="${film.id}">
+                <div class="affiche"><img th:src="${film.affiche}" th:alt="${film.nom}"></div>
+                <div class="ligne-texte">
+                    <span class="ligne-titre" th:text="${film.nom}">Nom du film</span>
+                    <span class="ligne-meta"><span th:text="${film.anneeSortie}">2010</span> · <span th:text="${film.duree}">148</span> min</span>
+                </div>
+                <button type="submit" class="btn btn-danger">Supprimer ce film</button>
+            </form>
+        </div>
+    </main>
 </body>
 </html>

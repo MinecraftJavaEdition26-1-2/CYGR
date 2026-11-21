@@ -1,41 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="https://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Client</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1 th:text="${clients.id == null} ? 'Nouveau client' : 'Modifier le client'"></h1>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <form th:action="@{/clients/enregistrer}" th:object="${clients}" method="post">
-        <input type="hidden" th:field="*{id}">
-        <div>
-            <label>Nom</label>
-            <input type="text" id="nom" required th:field="*{nom}">
-        </div>
-        <div>
-            <label>Prenom</label>
-            <input type="text" id="prenom" required th:field="*{prenom}">
-        </div>
-        <div>
-            <label>Email</label>
-            <input type="email" id="email" required th:field="*{email}">
-        </div>
-        <div>
-            <label>Date de naissance</label>
-            <input type="date" id="dateNaissance" required th:field="*{dateNaissance}" th:max="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
-        </div>
-        <div>
-            <label for="etudiant">Étudiant ?</label>
-            <input type="checkbox" id="etudiant" th:field="*{etudiant}">
+    <main class="container page">
+        <a th:href="@{/clients}" class="retour">← Retour à la liste des clients</a>
+
+        <div class="page-head">
+            <h1 th:text="${clients.id == null} ? 'Nouveau client' : 'Modifier le client'"></h1>
         </div>
 
-        <button type="submit">Enregistrer le client</button>
-    </form>
-
-    <a th:href="@{/clients}">Retour à la liste des clients</a>
-
-
+        <form class="formulaire" th:action="@{/clients/enregistrer}" th:object="${clients}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="champ">
+                <label>Nom</label>
+                <input type="text" id="nom" required th:field="*{nom}">
+            </div>
+            <div class="champ">
+                <label>Prenom</label>
+                <input type="text" id="prenom" required th:field="*{prenom}">
+            </div>
+            <div class="champ">
+                <label>Email</label>
+                <input type="email" id="email" required th:field="*{email}">
+            </div>
+            <div class="champ">
+                <label>Date de naissance</label>
+                <input type="date" id="dateNaissance" required th:field="*{dateNaissance}" th:max="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
+            </div>
+            <div class="champ-case">
+                <input type="checkbox" id="etudiant" th:field="*{etudiant}">
+                <label for="etudiant">Étudiant</label>
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Enregistrer le client</button>
+            </div>
+        </form>
+    </main>
 </body>
 </html>
