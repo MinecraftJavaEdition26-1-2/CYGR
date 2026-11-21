@@ -30,6 +30,12 @@ public class FilmController {
         return "films/liste"; //affiche template/films/liste.html
     }
 
+    @GetMapping("/detail") // GET /films/detail?id=...
+    public String detail(@RequestParam long id, Model model) {
+        model.addAttribute("film", filmService.findById(id));
+        return "films/detail";
+    }
+
     @GetMapping("/nouveau") // GET /films/nouveau
     public String nouveau(Model model) {
         model.addAttribute("film", new Film());

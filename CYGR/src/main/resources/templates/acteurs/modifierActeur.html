@@ -4,27 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier cet acteur</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Modifier l'acteur</h1>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <form th:action="@{/acteurs/enregistrer}" th:object="${acteur}" method="post">
-        <input type="hidden" th:field="*{id}">
-        <div>
-            <label>Nom</label>
-            <input type="text" required th:field="*{nom}">
-        </div>
-        <div>
-            <label>Prénom</label>
-            <input type="text" required th:field="*{prenom}">
-        </div>
-        <div>
-            <label>Nationalité</label>
-            <input type="text" required th:field="*{nationalite}">
-        </div>
-        <button type="submit">Enregistrer les modifications</button>
-    </form>
+    <main class="container page">
+        <a th:href="@{/acteurs}" class="retour">← Retour à la liste des acteurs</a>
 
-    <a th:href="@{/acteurs}">Retour à la liste des acteurs</a>
+        <div class="page-head">
+            <h1>Modifier l'acteur</h1>
+        </div>
+
+        <form class="formulaire" th:action="@{/acteurs/enregistrer}" th:object="${acteur}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="champ">
+                <label>Nom</label>
+                <input type="text" required th:field="*{nom}">
+            </div>
+            <div class="champ">
+                <label>Prénom</label>
+                <input type="text" required th:field="*{prenom}">
+            </div>
+            <div class="champ">
+                <label>Nationalité</label>
+                <input type="text" required th:field="*{nationalite}">
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            </div>
+        </form>
+    </main>
 </body>
 </html>

@@ -4,22 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier un acteur</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Page pour modifier les acteurs</h1>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <a th:href="@{/acteurs}">Retour sur la liste des acteurs</a>
+    <main class="container page">
+        <a th:href="@{/acteurs}" class="retour">← Retour à la liste des acteurs</a>
 
-    <p th:if="${acteurs.isEmpty()}">Aucun acteur à modifier</p>
-
-    <form th:action="@{/acteurs/modifierActeur}" th:each="acteur : ${acteurs}" method="get">
-        <div>
-            <input type="hidden" name="id" th:value="${acteur.id}">
-            <h2 th:text="${acteur.nom + ' ' + acteur.prenom}"></h2>
-            <p>Nationalité : <span th:text="${acteur.nationalite}"></span></p>
-            <button type="submit">Modifier cet acteur</button>
+        <div class="page-head">
+            <h1>Modifier un acteur</h1>
         </div>
-    </form>
 
+        <p class="vide" th:if="${acteurs.isEmpty()}">Aucun acteur à modifier</p>
+
+        <div class="lignes">
+            <form class="ligne" th:action="@{/acteurs/modifierActeur}" th:each="acteur : ${acteurs}" method="get">
+                <input type="hidden" name="id" th:value="${acteur.id}">
+                <div class="ligne-texte">
+                    <span class="ligne-titre" th:text="${acteur.nom + ' ' + acteur.prenom}">Nom Prénom</span>
+                    <span class="ligne-meta" th:text="${acteur.nationalite}">Nationalité</span>
+                </div>
+                <button type="submit" class="btn">Modifier cet acteur</button>
+            </form>
+        </div>
+    </main>
 </body>
 </html>

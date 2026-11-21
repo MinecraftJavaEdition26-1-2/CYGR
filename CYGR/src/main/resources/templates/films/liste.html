@@ -4,27 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des films</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Film</h1>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <p th:if="${films.isEmpty()}">Aucun film disponible pour le moment</p>
+    <main class="container page">
+        <div class="page-head">
+            <h1>Films</h1>
+            <div class="actions">
+                <a th:href="@{/films/formulaireModifier}" class="btn">Modifier un film</a>
+                <a th:href="@{/films/formulaireSupprimer}" class="btn">Supprimer un film</a>
+                <a th:href="@{/films/nouveau}" class="btn btn-primary">Ajouter un film</a>
+            </div>
+        </div>
 
-    <a th:href="@{/films/nouveau}" class="btn btn-primary">Ajouter un film</a>
-    <br>
-    <a th:href="@{/films/formulaireSupprimer}" class="btn btn-primary">Supprimer un film</a>
-    <br>
-    <a th:href="@{/films/formulaireModifier}" class="btn btn-primary">Modifier un film</a>
+        <p class="vide" th:if="${films.isEmpty()}">Aucun film disponible pour le moment</p>
 
-    <div th:each="film : ${films}">
-        <h2 th:text="${film.nom}">Nom du film</h2>
-        <img th:src="${film.affiche}" th:alt="${film.nom}" width="200">
-        <p>Année de sortie : <span th:text="${film.anneeSortie}">2000</span></p>
-        <p>Durée : <span th:text="${film.duree}"></span> min</p>
-        <p>Âge minimum : <span th:text="${film.age}"></span> ans</p>
-        <p th:text="${film.synopsis}">Synopsis du film</p>
-    </div>
-
-
+        <div class="grille-films">
+            <a class="fiche" th:each="film : ${films}" th:href="@{/films/detail(id=${film.id})}">
+                <div class="affiche">
+                    <img th:src="${film.affiche}" th:alt="${film.nom}">
+                </div>
+                <div class="fiche-corps">
+                    <h2 class="fiche-titre" th:text="${film.nom}">Nom du film</h2>
+                    <div class="fiche-meta">
+                        <span><span th:text="${film.anneeSortie}">2010</span> · <span th:text="${film.duree}">148</span> min</span>
+                        <span class="age"><span th:text="${film.age}">12</span>+</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
 </body>
 </html>

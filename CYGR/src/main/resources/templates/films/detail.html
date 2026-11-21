@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail du film</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container page">
+        <a th:href="@{/films}" class="retour">← Retour à la liste des films</a>
+
+        <div class="film">
+            <div class="affiche">
+                <img th:src="${film.affiche}" th:alt="${film.nom}">
+            </div>
+
+            <div class="film-infos">
+                <div>
+                    <h1 th:text="${film.nom}">Nom du film</h1>
+                    <div class="film-meta">
+                        <span><span th:text="${film.anneeSortie}">2010</span> · <span th:text="${film.duree}">148</span> min</span>
+                        <span class="age"><span th:text="${film.age}">12</span>+</span>
+                    </div>
+                </div>
+
+                <p class="synopsis" th:text="${film.synopsis}">Synopsis du film</p>
+
+                <div class="bloc">
+                    <h2>Acteurs</h2>
+                    <p class="vide" th:if="${film.acteurs.isEmpty()}">Aucun acteur dans ce film</p>
+                    <ul class="liste-acteurs">
+                        <li th:each="acteur : ${film.acteurs}">
+                            <span th:text="${acteur.nom + ' ' + acteur.prenom}">Nom Prénom</span>
+                            <span class="nationalite" th:text="${acteur.nationalite}">Nationalité</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="actions">
+                    <a th:href="@{/films/modifierFilm(id=${film.id})}" class="btn btn-primary">Modifier</a>
+                    <form th:action="@{/films/supprimer}" method="post">
+                        <input type="hidden" name="id" th:value="${film.id}">
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

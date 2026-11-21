@@ -9,7 +9,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("message", "Ça marche !");
+        model.addAttribute("message", "Les films et les acteurs du cinéma");
         return "index";
     }
 }

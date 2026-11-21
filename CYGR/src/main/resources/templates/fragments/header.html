@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<body>
+    <!-- En-tête commun à toutes les pages -->
+    <header th:fragment="header" class="site-header">
+        <div class="container header-inner">
+            <a th:href="@{/}" class="logo">CYGR</a>
+            <nav class="nav">
+                <a th:href="@{/films}">Films</a>
+                <a th:href="@{/acteurs}">Acteurs</a>
+                <a th:href="@{/clients}">Clients</a>
+            </nav>
+        </div>
+    </header>
+</body>
+</html>
