@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Client;
 import com.example.demo.exception.RegleMetierException;
+import com.example.demo.service.CarteFideliteService;
 import com.example.demo.service.ClientService;
 
 
@@ -21,10 +21,13 @@ import com.example.demo.service.ClientService;
 public class ClientController {
     
     private final ClientService clientService;
+    private final CarteFideliteService carteFideliteService;
 
-    public ClientController(ClientService clientService){
+    public ClientController(ClientService clientService, CarteFideliteService carteFideliteService){
         this.clientService = clientService;
+        this.carteFideliteService = carteFideliteService;
     }
+    
 
     @GetMapping // GET /clients ou /clients?recherche=dupont
     public String liste(@RequestParam(required = false) String recherche, Model model) {
@@ -68,6 +71,18 @@ public class ClientController {
         model.addAttribute("client", clientService.findById(id));
         return "clients/fiche";
     }
+
+    @PostMapping("/{id}/carte") // POST /clients/3/carte
+    public String creerCarte(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            carteFideliteService.creerCarte(id);
+            redirectAttributes.addFlashAttribute("succes", "Carte de fidélité créée");
+        } catch (RegleMetierException e) {
+            redirectAttributes.addFlashAttribute("erreur", e.getMessage());
+        }
+        return "redirect:/clients/" + id; // retour sur la fiche
+    }
+
 
 
 

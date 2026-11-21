@@ -21,7 +21,13 @@
         <p>Points : <span th:text="${client.carte.points}"></span> / 100</p>
         <p>Créée le : <span th:text="${#temporals.format(client.carte.dateCreation, 'dd/MM/yyyy')}"></span></p>
     </div>
-    <p th:if="${client.carte == null}">Ce client n'a pas encore de carte.</p>
+    <div th:if="${client.carte == null}">
+        <p>Ce client n'a pas encore de carte.</p>
+        <form th:action="@{/clients/{id}/carte(id=${client.id})}" method="post">
+            <button type="submit">Créer la carte de fidélité</button>
+        </form>
+    </div>
+
 
     <!-- Historique des réservations (1-N) -->
     <h2>Réservations</h2>
