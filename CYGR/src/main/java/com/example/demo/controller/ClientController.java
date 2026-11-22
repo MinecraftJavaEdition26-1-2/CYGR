@@ -106,5 +106,19 @@ public class ClientController {
         return "redirect:/clients/" + id;
     }
 
+
+    @PostMapping("/{id}/reservations/{reservationId}/annuler") // POST /clients/3/reservations/7/annuler
+    public String annuler(@PathVariable Long id, @PathVariable Long reservationId,
+                          RedirectAttributes redirectAttributes) {
+        try {
+            reservationService.annuler(id, reservationId);
+            redirectAttributes.addFlashAttribute("succes", "Réservation annulée, places libérées");
+        } catch (RegleMetierException e) {
+            redirectAttributes.addFlashAttribute("erreur", e.getMessage());
+        }
+        return "redirect:/clients/" + id;
+    }
+
+
   
 }

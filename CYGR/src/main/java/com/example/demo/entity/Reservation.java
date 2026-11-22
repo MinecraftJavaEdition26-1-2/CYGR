@@ -30,7 +30,7 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private Statut statut = Statut.CONFIRMEE;
 
-    // true si une place a été offerte grâce à la carte de fidélité
+    // true si une place a été oferte grace à la carte de fidéliter
     private Boolean placeOfferte = false;
 
 

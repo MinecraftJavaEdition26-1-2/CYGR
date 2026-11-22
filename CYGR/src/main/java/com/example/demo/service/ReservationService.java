@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.entity.Client;
 import com.example.demo.entity.Reservation;
 import com.example.demo.entity.Seance;
+import com.example.demo.entity.Statut;
 import com.example.demo.exception.RegleMetierException;
 import com.example.demo.repository.ClientRepository;
 import com.example.demo.repository.ReservationRepository;
@@ -20,6 +21,8 @@ import com.example.demo.repository.SeanceRepository;
 
 @Service
 public class ReservationService {
+
+    public static final int DELAI_ANNULATION_HEURES = 2;
     
     private final ReservationRepository reservationRepository;
     private final SeanceRepository seanceRepository;
@@ -78,6 +81,34 @@ public class ReservationService {
         reservation.setDateReservation(LocalDateTime.now());
         return reservationRepository.save(reservation);
     }
+
+    @Transactional
+    public Reservation annuler(Long clientId, Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RegleMetierException("Réservation introuvable"));
+
+        // la réservation doit appartenir à ce client
+        if (!reservation.getClient().getId().equals(clientId)) {
+            throw new RegleMetierException("Cette réservation n'appartient pas à ce client");
+        }
+
+        // Vérifie le statut
+        if (reservation.getStatut() == Statut.ANNULEE) {
+            throw new RegleMetierException("Cette réservation est déjà annulée");
+        }
+
+        // Vérifie l'heure avant la sceance
+        LocalDateTime limite = reservation.getSeance().getDateHeureDebut().minusHours(DELAI_ANNULATION_HEURES);
+        if (LocalDateTime.now().isAfter(limite)) {
+            throw new RegleMetierException("Annulation impossible, la séance commence dans moins de " + DELAI_ANNULATION_HEURES + " h");
+        }
+
+        // tout est bon.
+        reservation.setStatut(Statut.ANNULEE);
+        carteFideliteService.annulerFidelite(reservation);
+        return reservationRepository.save(reservation);
+    }
+
 
 
     public List<Seance> seancesAVenir() {

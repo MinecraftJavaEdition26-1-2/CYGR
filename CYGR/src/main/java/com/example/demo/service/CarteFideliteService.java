@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.CarteFidelite;
 import com.example.demo.entity.Client;
+import com.example.demo.entity.Reservation;
 import com.example.demo.exception.RegleMetierException;
 import com.example.demo.repository.CarteFideliteRepository;
 import com.example.demo.repository.ClientRepository;
@@ -54,12 +55,8 @@ public class CarteFideliteService {
     }
 
 
-    /**
-     * Règle de fidélité, appliquée à chaque nouvelle réservation :
-     *  - si la carte a au moins 100 points : 1 place offerte et 100 points retirés
-     *  - ensuite, 10 points par place payée
-     * Retourne true si une place est offerte.
-     */
+
+    //retourne true si une place est offerte, 10 points par place reserver et a 100 points une place offerte.
     @Transactional
     public boolean appliquerFidelite(Client client, int nombrePlaces) {
         CarteFidelite carte = client.getCarte();
@@ -82,5 +79,27 @@ public class CarteFideliteService {
         carteFideliteRepository.save(carte);
         return placeOfferte;
     }
+
+
+    //retire une réservation ainsi que les points de fideliter qui était associé.     
+    @Transactional
+    public void annulerFidelite(Reservation reservation) {
+        CarteFidelite carte = reservation.getClient().getCarte();
+        if (carte == null) {
+            return;
+        }
+
+        boolean placeOfferte = Boolean.TRUE.equals(reservation.getPlaceOfferte());
+        int placesPayees = placeOfferte ? reservation.getNombrePlaces() - 1 : reservation.getNombrePlaces();
+
+        int points = carte.getPoints() - placesPayees * POINTS_PAR_PLACE;
+        if (placeOfferte) {
+            points += SEUIL_PLACE_OFFERTE;
+        }
+
+        carte.setPoints(Math.max(0, points));
+        carteFideliteRepository.save(carte);
+    }
+
 
 }

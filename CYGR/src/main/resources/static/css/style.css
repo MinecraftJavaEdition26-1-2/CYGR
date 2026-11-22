@@ -226,6 +226,7 @@ h1 { font-size: 28px; line-height: 36px; letter-spacing: -0.01em; }
 .champ { display: flex; flex-direction: column; gap: 8px; }
 .champ label { color: var(--text-2); font-size: 14px; }
 .champ input,
+.champ select,
 .champ textarea {
   width: 100%;
   height: 40px;
