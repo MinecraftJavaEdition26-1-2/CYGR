@@ -4,19 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des séances</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Séances</h1>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <p th:if="${seances.isEmpty()}">Aucune séance disponible pour le moment</p>
+    <main class="container page">
+        <div class="page-head">
+            <h1>Séances</h1>
+        </div>
 
-    <div th:each="seance : ${seances}">
-        <h2 th:text="${seance.film.nom}">Nom du film</h2>
-        <p>Date : <span th:text="${#temporals.format(seance.dateHeureDebut, 'dd/MM/yyyy HH:mm')}">01/01/2026 20:30</span></p>
-        <p>Salle : <span th:text="${seance.salle.nom}">Salle 1</span></p>
-        <p>Version : <span th:text="${seance.version}">VF</span></p>
-        <p>Prix : <span th:text="${seance.prix}">10</span> €</p>
-    </div>
+        <p class="vide" th:if="${seances.isEmpty()}">Aucune séance disponible pour le moment</p>
 
+        <table class="tableau" th:unless="${seances.isEmpty()}">
+            <tr>
+                <th>Date</th><th>Film</th><th>Salle</th><th>Version</th><th>Prix</th>
+            </tr>
+            <tr th:each="seance : ${seances}">
+                <td th:text="${#temporals.format(seance.dateHeureDebut, 'dd/MM/yyyy HH:mm')}">01/01/2026 20:30</td>
+                <td th:text="${seance.film.nom}">Nom du film</td>
+                <td th:text="${seance.salle.nom}">Salle 1</td>
+                <td th:text="${seance.version}">VF</td>
+                <td th:text="${seance.prix} + ' €'">10 €</td>
+            </tr>
+        </table>
+    </main>
 </body>
 </html>

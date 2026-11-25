@@ -4,30 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${salle.nom}">Fiche de la salle</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <a th:href="@{/salles}">Retour à la liste des salles</a>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <h1 th:text="${salle.nom}">Nom de la salle</h1>
-    <p>Capacité : <span th:text="${salle.capacite}">100</span> places</p>
-    <a th:href="@{/salles/{id}/modifier(id=${salle.id})}">Modifier la salle</a>
-    <form th:action="@{/salles/{id}/supprimer(id=${salle.id})}" method="post"
-          onsubmit="return confirm('Supprimer cette salle ?')">
-        <button type="submit">Supprimer la salle</button>
-    </form>
+    <main class="container page">
+        <a th:href="@{/salles}" class="retour">Retour à la liste des salles</a>
 
-    <h2>Séances programmées</h2>
+        <div class="page-head">
+            <h1 th:text="${salle.nom}">Nom de la salle</h1>
+            <div class="actions">
+                <a th:href="@{/salles/{id}/modifier(id=${salle.id})}" class="btn">Modifier la salle</a>
+                <form th:action="@{/salles/{id}/supprimer(id=${salle.id})}" method="post"
+                      onsubmit="return confirm('Supprimer cette salle ?')">
+                    <button type="submit" class="btn btn-danger">Supprimer la salle</button>
+                </form>
+            </div>
+        </div>
 
-    <p th:if="${salle.seances.isEmpty()}">Aucune séance prévue dans cette salle</p>
+        <div class="bloc">
+            <h2>Informations</h2>
+            <ul class="infos">
+                <li><span>Capacité</span><span><span th:text="${salle.capacite}">100</span> places</span></li>
+            </ul>
+        </div>
 
-    <ul th:unless="${salle.seances.isEmpty()}">
-        <li th:each="seance : ${salle.seances}">
-            <span th:text="${#temporals.format(seance.dateHeureDebut, 'dd/MM/yyyy HH:mm')}">01/01/2026 20:30</span>
-            -
-            <span th:text="${seance.film.nom}">Nom du film</span>
-            (<span th:text="${seance.version}">VF</span>)
-        </li>
-    </ul>
-
+        <div class="bloc" style="margin-top: 40px">
+            <h2>Séances programmées</h2>
+            <p class="vide" th:if="${salle.seances.isEmpty()}">Aucune séance prévue dans cette salle</p>
+            <table class="tableau" th:unless="${salle.seances.isEmpty()}">
+                <tr>
+                    <th>Date</th><th>Film</th><th>Version</th>
+                </tr>
+                <tr th:each="seance : ${salle.seances}">
+                    <td th:text="${#temporals.format(seance.dateHeureDebut, 'dd/MM/yyyy HH:mm')}">01/01/2026 20:30</td>
+                    <td th:text="${seance.film.nom}">Nom du film</td>
+                    <td th:text="${seance.version}">VF</td>
+                </tr>
+            </table>
+        </div>
+    </main>
 </body>
 </html>

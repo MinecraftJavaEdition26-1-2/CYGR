@@ -4,20 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des salles</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Salles</h1>
-    <a th:href="@{/salles/nouvelle}">Ajouter une salle</a>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-    <p class="message succes" th:if="${succes}" th:text="${succes}"></p>
-    <p class="message erreur" th:if="${erreur}" th:text="${erreur}"></p>
+    <main class="container page">
+        <div class="page-head">
+            <h1>Salles</h1>
+            <div class="actions">
+                <a th:href="@{/salles/nouvelle}" class="btn btn-primary">Ajouter une salle</a>
+            </div>
+        </div>
 
-    <p th:if="${salles.isEmpty()}">Aucune salle disponible pour le moment</p>
+        <p class="message succes" th:if="${succes}" th:text="${succes}"></p>
+        <p class="message erreur" th:if="${erreur}" th:text="${erreur}"></p>
 
-    <div th:each="salle : ${salles}">
-        <h2><a th:href="@{/salles/{id}(id=${salle.id})}" th:text="${salle.nom}">Nom de la salle</a></h2>
-        <p>Capacité : <span th:text="${salle.capacite}">100</span> places</p>
-    </div>
+        <p class="vide" th:if="${salles.isEmpty()}">Aucune salle disponible pour le moment</p>
 
+        <div class="lignes">
+            <div class="ligne" th:each="salle : ${salles}">
+                <div class="ligne-texte">
+                    <a class="ligne-titre" th:href="@{/salles/{id}(id=${salle.id})}" th:text="${salle.nom}">Nom de la salle</a>
+                    <span class="ligne-meta"><span th:text="${salle.capacite}">100</span> places</span>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
