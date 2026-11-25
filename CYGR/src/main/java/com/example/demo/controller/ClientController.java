@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import com.example.demo.entity.Client;
 import com.example.demo.exception.RegleMetierException;
 import com.example.demo.service.CarteFideliteService;
 import com.example.demo.service.ClientService;
+import com.example.demo.service.FilmService;
 import com.example.demo.service.ReservationService;
 import com.example.demo.entity.Reservation;
 
@@ -26,11 +30,13 @@ public class ClientController {
     private final ClientService clientService;
     private final CarteFideliteService carteFideliteService;
     private final ReservationService reservationService;
+    private final FilmService filmService;
 
-    public ClientController(ClientService clientService, CarteFideliteService carteFideliteService, ReservationService reservationService){
+    public ClientController(ClientService clientService, CarteFideliteService carteFideliteService, ReservationService reservationService, FilmService filmService){
         this.clientService = clientService;
         this.carteFideliteService = carteFideliteService;
         this.reservationService = reservationService;
+        this.filmService = filmService;
     }
     
 
@@ -71,10 +77,16 @@ public class ClientController {
         return "redirect:/clients";
     }
 
-    @GetMapping("/{id}") // GET /clients/3
-    public String fiche(@PathVariable Long id, Model model) {
+    @GetMapping("/{id}") // GET /clients/3?filmId=2&date=2026-12-02
+    public String fiche(@PathVariable Long id,
+                        @RequestParam(required = false) Long filmId,
+                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                        Model model) {
         model.addAttribute("client", clientService.findById(id));
-        model.addAttribute("seances", reservationService.seancesAVenir());
+        model.addAttribute("seances", reservationService.seancesAVenir(filmId, date));
+        model.addAttribute("films", filmService.findAll());   // pour la liste déroulante
+        model.addAttribute("filmId", filmId);                  // pour garder le choix affiché
+        model.addAttribute("date", date);
         return "clients/fiche";
     }
 
