@@ -1,0 +1,332 @@
+/* CYGR — feuille de style unique pour toutes les pages */
+
+:root {
+  --bg: #111113;
+  --surface: #19191c;
+  --surface-2: #222226;
+  --line: rgba(237, 237, 240, 0.08);
+  --line-strong: rgba(237, 237, 240, 0.14);
+  --text: #ededf0;
+  --text-2: #a8a8b0;
+  --muted: #86868e;
+  --accent: #d9584f;
+  --danger: #e5675f;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 15px/1.5 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+h1, h2, h3 { margin: 0; font-weight: 500; }
+p { margin: 0; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.page { padding-top: 40px; padding-bottom: 80px; }
+
+/* En-tête */
+
+.site-header { border-bottom: 1px solid var(--line); }
+.header-inner { height: 56px; display: flex; align-items: center; gap: 32px; }
+.logo { font-size: 16px; font-weight: 600; letter-spacing: 0.04em; }
+.nav { display: flex; gap: 4px; }
+.nav a {
+  height: 32px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  color: var(--text-2);
+  font-size: 14px;
+  transition: color 150ms var(--ease), background-color 150ms var(--ease);
+}
+.nav a:hover { color: var(--text); background: var(--surface-2); }
+
+/* Titre de page */
+
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+h1 { font-size: 28px; line-height: 36px; letter-spacing: -0.01em; }
+
+.retour {
+  display: inline-flex;
+  margin-bottom: 24px;
+  color: var(--text-2);
+  font-size: 14px;
+  transition: color 150ms var(--ease);
+}
+.retour:hover { color: var(--text); }
+
+/* Boutons */
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.actions form { margin: 0; }
+
+.btn {
+  height: 36px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font: 500 14px/1 var(--font);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease), border-color 150ms var(--ease), transform 100ms var(--ease);
+}
+.btn:hover { background: var(--surface-2); }
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--text); border-color: transparent; color: var(--bg); }
+.btn-primary:hover { background: #d4d4d9; }
+.btn-danger { color: var(--danger); border-color: rgba(229, 103, 95, 0.32); }
+.btn-danger:hover { background: rgba(229, 103, 95, 0.1); }
+
+/* Classification d'âge, ex. « 12+ » */
+
+.age {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  color: var(--text-2);
+  font: 400 12px/1 var(--mono);
+}
+
+/* Fiches de films */
+
+.grille-films {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.fiche {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: background-color 150ms var(--ease), border-color 150ms var(--ease);
+}
+.fiche:hover { background: var(--surface-2); border-color: var(--line-strong); }
+
+.affiche { aspect-ratio: 2 / 3; background: var(--surface-2); overflow: hidden; }
+/* color transparent : si l'URL de l'affiche est cassée, on garde un fond neutre au lieu du texte alt */
+.affiche img { width: 100%; height: 100%; object-fit: cover; color: transparent; }
+
+.fiche-corps { flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 12px 16px 16px; }
+.fiche-corps .fiche-meta { margin-top: auto; }
+.fiche-titre { font-size: 15px; line-height: 20px; }
+.fiche-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Page d'un film */
+
+.film { display: grid; grid-template-columns: 320px 1fr; gap: 48px; align-items: start; }
+.film .affiche {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+}
+.film-infos { display: flex; flex-direction: column; gap: 24px; padding-top: 8px; }
+.film-infos h1 { font-size: 40px; line-height: 44px; letter-spacing: -0.02em; }
+.film-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  color: var(--text-2);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.synopsis { max-width: 64ch; color: var(--text-2); font-size: 16px; line-height: 26px; }
+
+.bloc h2 { margin-bottom: 8px; color: var(--muted); font-size: 14px; }
+
+.liste-acteurs { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.liste-acteurs li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.liste-acteurs .nationalite { color: var(--muted); font-size: 14px; }
+
+/* Listes en lignes (acteurs, choix d'un film à modifier ou supprimer) */
+
+.lignes {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.ligne {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  margin: 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+}
+.ligne:first-child { border-top: 0; }
+.ligne .affiche { width: 40px; flex: none; border-radius: 4px; }
+.ligne-texte { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ligne-titre { font-size: 15px; font-weight: 500; }
+.ligne-meta { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+/* Formulaires */
+
+.formulaire {
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.champs-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.champ { display: flex; flex-direction: column; gap: 8px; }
+.champ label { color: var(--text-2); font-size: 14px; }
+.champ input,
+.champ select,
+.champ textarea {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+  transition: border-color 150ms var(--ease);
+}
+.champ textarea { height: auto; min-height: 120px; padding: 8px 12px; resize: vertical; }
+.champ input:focus,
+.champ textarea:focus { outline: none; border-color: var(--accent); }
+.formulaire .actions { margin-top: 4px; }
+
+/* États vides */
+
+.vide {
+  padding: 48px 16px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+.bloc .vide { padding: 24px 16px; }
+
+/* Messages de succès / d'erreur */
+
+.message { margin-bottom: 24px; padding: 12px 16px; border-radius: 8px; font-size: 14px; }
+.message.succes { background: rgba(70, 167, 88, 0.12); color: #7fcf8e; }
+.message.erreur { background: rgba(229, 103, 95, 0.12); color: var(--danger); }
+
+/* Barre de recherche */
+
+.recherche { display: flex; gap: 8px; margin-bottom: 24px; }
+.recherche input {
+  width: 320px;
+  height: 36px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+}
+.recherche input:focus { outline: none; border-color: var(--accent); }
+
+a.ligne-titre:hover { text-decoration: underline; }
+
+/* Fiche client */
+
+.fiche-client { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; }
+.infos { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.infos li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.infos li > span:first-child { color: var(--muted); }
+.bloc .vide form { margin-top: 16px; }
+
+.tableau { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tableau th,
+.tableau td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); text-align: left; }
+.tableau th { color: var(--muted); font-size: 14px; font-weight: 500; }
+
+/* Case à cocher */
+
+.champ-case { display: flex; align-items: center; gap: 8px; color: var(--text-2); font-size: 14px; }
+.champ-case input { width: 16px; height: 16px; accent-color: var(--accent); }
+
+/* Accueil */
+
+.accueil {
+  min-height: calc(100vh - 57px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding-bottom: 80px;
+}
+.accueil h1 { font-size: 56px; line-height: 60px; letter-spacing: -0.03em; }
+.accueil p { color: var(--text-2); font-size: 18px; }
+.accueil .actions { margin-top: 16px; }
+
+/* Petits écrans */
+
+@media (max-width: 720px) {
+  .container { padding: 0 16px; }
+  .page { padding-top: 24px; }
+  .grille-films { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .film { grid-template-columns: 1fr; gap: 24px; }
+  .film .affiche { max-width: 240px; }
+  .film-infos h1 { font-size: 32px; line-height: 36px; }
+  .champs-trio { grid-template-columns: 1fr; }
+  .fiche-client { grid-template-columns: 1fr; }
+  .recherche input { width: 100%; }
+  .ligne { flex-wrap: wrap; }
+  .accueil h1 { font-size: 40px; line-height: 44px; }
+}

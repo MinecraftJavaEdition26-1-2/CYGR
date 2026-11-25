@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche client</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container page">
+        <a th:href="@{/clients}" class="retour">← Retour à la liste</a>
+
+        <div class="page-head">
+            <h1 th:text="${client.prenom + ' ' + client.nom}">Fiche client</h1>
+            <div class="actions">
+                <a th:href="@{/clients/{id}/modifier(id=${client.id})}" class="btn">Modifier</a>
+                <form th:action="@{/clients/{id}/supprimer(id=${client.id})}" method="post"
+                      onsubmit="return confirm('Supprimer ce client ?')">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        </div>
+
+        <p class="message succes" th:if="${succes}" th:text="${succes}"></p>
+        <p class="message erreur" th:if="${erreur}" th:text="${erreur}"></p>
+
+        <div class="fiche-client">
+            <!-- Infos -->
+            <div class="bloc">
+                <h2>Informations</h2>
+                <ul class="infos">
+                    <li><span>Email</span><span th:text="${client.email}"></span></li>
+                    <li><span>Date de naissance</span><span th:text="${#temporals.format(client.dateNaissance, 'dd/MM/yyyy')}"></span></li>
+                    <li><span>Étudiant</span><span th:text="${client.etudiant} ? 'Oui' : 'Non'"></span></li>
+                </ul>
+            </div>
+
+            <!-- Carte de fidélité (1-1) -->
+            <div class="bloc">
+                <h2>Carte de fidélité</h2>
+                <ul class="infos" th:if="${client.carte != null}">
+                    <li><span>Numéro</span><span th:text="${client.carte.numero}"></span></li>
+                    <li><span>Points</span><span><span th:text="${client.carte.points}"></span> / 100</span></li>
+                    <li><span>Créée le</span><span th:text="${#temporals.format(client.carte.dateCreation, 'dd/MM/yyyy')}"></span></li>
+                </ul>
+                <p class="message succes" th:if="${client.carte != null and client.carte.points >= 100}"
+                   style="margin-top: 16px">
+                    Une place sera offerte à la prochaine réservation !
+                </p>
+                <div class="vide" th:if="${client.carte == null}">
+                    <p>Ce client n'a pas encore de carte</p>
+                    <form th:action="@{/clients/{id}/carte(id=${client.id})}" method="post">
+                        <button type="submit" class="btn btn-primary">Créer la carte de fidélité</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historique des réservations (1-N) -->
+        <div class="bloc">
+            <h2>Réservations</h2>
+            <p class="vide" th:if="${client.reservations.isEmpty()}">Aucune réservation</p>
+            <table class="tableau" th:unless="${client.reservations.isEmpty()}">
+                <tr>
+                    <th>Film</th><th>Séance</th><th>Places</th><th>Prix</th><th>Statut</th><th></th>
+                </tr>
+                <tr th:each="r : ${client.reservations}">
+                    <td th:text="${r.seance.film.nom}"></td>
+                    <td th:text="${#temporals.format(r.seance.dateHeureDebut, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td>
+                        <span th:text="${r.nombrePlaces}"></span>
+                        <span th:if="${r.placeOfferte}"> (dont 1 offerte)</span>
+                    </td>
+                    <td th:text="${r.prixTotal} + ' €'"></td>
+                    <td th:text="${r.statut}"></td>
+                    <td>
+                        <form th:if="${r.statut.name() == 'CONFIRMEE'}"
+                              th:action="@{/clients/{id}/reservations/{rid}/annuler(id=${client.id}, rid=${r.id})}"
+                              method="post" onsubmit="return confirm('Annuler cette réservation ?')">
+                            <button type="submit" class="btn btn-danger">Annuler</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Nouvelle réservation -->
+        <div class="bloc" style="margin-top: 40px">
+            <h2>Nouvelle réservation</h2>
+            <p class="vide" th:if="${seances.isEmpty()}">Aucune séance à venir</p>
+            <form class="formulaire" th:unless="${seances.isEmpty()}"
+                  th:action="@{/clients/{id}/reserver(id=${client.id})}" method="post">
+                <div class="champ">
+                    <label for="seanceId">Séance</label>
+                    <select id="seanceId" name="seanceId" required>
+                        <option th:each="s : ${seances}" th:value="${s.id}"
+                                th:text="${s.film.nom + ' – ' + #temporals.format(s.dateHeureDebut, 'dd/MM HH:mm') + ' – ' + s.salle.nom + ' – ' + s.prix + ' €'}">
+                        </option>
+                    </select>
+                </div>
+                <div class="champ">
+                    <label for="nombrePlaces">Nombre de places</label>
+                    <input id="nombrePlaces" type="number" name="nombrePlaces" min="1" value="1" required>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">Réserver</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

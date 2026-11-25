@@ -1,10 +1,16 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.validation.constraints.Past;
+
 
 @Entity
 @Getter @Setter
@@ -15,10 +21,18 @@ public class Client {
     private String nom;
     private String prenom;
     private String email;
+
+    @Past
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateNaissance;
-    private boolean etudiant;
+
+    private boolean isEtudiant;
+    private boolean isAdmin;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carte_id")
     private CarteFidelite carte;
+
+    @OneToMany(mappedBy = "client")
+    private List<Reservation> reservations = new ArrayList<>();
 }

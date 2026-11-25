@@ -38,6 +38,6 @@ public class Film {
     private Integer age;
 
     // Représente l'url à laquel on peut retrouver l'affiche
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 1000 )
     private String affiche;
 }

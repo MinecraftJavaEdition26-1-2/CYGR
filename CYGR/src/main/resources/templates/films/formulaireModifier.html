@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Film</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container page">
+        <a th:href="@{/films}" class="retour">← Retour à la liste des films</a>
+
+        <div class="page-head">
+            <h1>Modifier un film</h1>
+        </div>
+
+        <div class="lignes">
+            <form class="ligne" th:action="@{/films/modifierFilm}" th:each="film : ${films}" method="get">
+                <input type="hidden" name="id" th:value="${film.id}">
+                <div class="affiche"><img th:src="${film.affiche}" th:alt="${film.nom}"></div>
+                <div class="ligne-texte">
+                    <span class="ligne-titre" th:text="${film.nom}">Nom du film</span>
+                    <span class="ligne-meta"><span th:text="${film.anneeSortie}">2010</span> · <span th:text="${film.duree}">148</span> min</span>
+                </div>
+                <button type="submit" class="btn">Modifier ce film</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
