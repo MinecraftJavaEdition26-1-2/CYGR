@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salle</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container page">
+        <a th:href="@{/salles}" class="retour">← Retour à la liste des salles</a>
+
+        <div class="page-head">
+            <h1 th:text="${salle.id == null} ? 'Nouvelle salle' : 'Modifier la salle'">Nouvelle salle</h1>
+        </div>
+
+        <form class="formulaire" th:action="@{/salles/enregistrer}" th:object="${salle}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="champ">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" required maxlength="50" th:field="*{nom}">
+            </div>
+            <div class="champ">
+                <label for="capacite">Capacité (places)</label>
+                <input type="number" id="capacite" required min="1" th:field="*{capacite}">
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Enregistrer la salle</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
