@@ -103,9 +103,11 @@ public class ReservationService {
             throw new RegleMetierException("Annulation impossible, la séance commence dans moins de " + DELAI_ANNULATION_HEURES + " h");
         }
 
+        // Fidélité : peut refuser l'annulation si les points ont déjà été dépensés
+        carteFideliteService.annulerFidelite(reservation);
+
         // tout est bon.
         reservation.setStatut(Statut.ANNULEE);
-        carteFideliteService.annulerFidelite(reservation);
         return reservationRepository.save(reservation);
     }
 
