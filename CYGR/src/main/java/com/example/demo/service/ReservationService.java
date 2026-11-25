@@ -119,6 +119,13 @@ public class ReservationService {
                 .toList();
     }
 
+    public List<Seance> seancesAVenir(Long filmId, LocalDate date) {
+        return seancesAVenir().stream()
+                .filter(s -> filmId == null || s.getFilm().getId().equals(filmId))
+                .filter(s -> date == null || s.getDateHeureDebut().toLocalDate().equals(date))
+                .toList();
+    }
+
 
 
 }

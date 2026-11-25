@@ -89,6 +89,16 @@
         <!-- Nouvelle réservation -->
         <div class="bloc" style="margin-top: 40px">
             <h2>Nouvelle réservation</h2>
+            <form class="recherche" th:action="@{/clients/{id}(id=${client.id})}" method="get">
+                <select name="filmId">
+                    <option value="">Tous les films</option>
+                    <option th:each="f : ${films}" th:value="${f.id}" th:text="${f.nom}"
+                            th:selected="${f.id == filmId}"></option>
+                </select>
+                <input type="date" name="date" th:value="${date}">
+                <button type="submit" class="btn">Filtrer</button>
+                <a th:href="@{/clients/{id}(id=${client.id})}" class="btn">Effacer</a>
+            </form>
             <p class="vide" th:if="${seances.isEmpty()}">Aucune séance à venir</p>
             <form class="formulaire" th:unless="${seances.isEmpty()}"
                   th:action="@{/clients/{id}/reserver(id=${client.id})}" method="post">
