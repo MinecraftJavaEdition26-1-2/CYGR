@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 import com.example.demo.entity.Salle;
@@ -30,6 +32,12 @@ public class SalleController {
     public String nouvelle(Model model){
         model.addAttribute("salle", new Salle());
         return "salles/formulaire";
+    }
+
+    @PostMapping("/enregistrer")
+    public String enregistrer(@ModelAttribute Salle salle){
+        Salle salleEnregistree = salleService.save(salle);
+        return "redirect:/salles/" + salleEnregistree.getId();
     }
 
     @GetMapping("/{id}")
