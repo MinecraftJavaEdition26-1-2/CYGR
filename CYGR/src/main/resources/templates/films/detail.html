@@ -30,6 +30,7 @@
 
                 <div class="bloc">
                     <h2>Acteurs</h2>
+                    <a th:href="@{/films/ajouterActeur(id=${film.id})}">Ajouter un acteur</a>
                     <p class="vide" th:if="${film.acteurs.isEmpty()}">Aucun acteur dans ce film</p>
                     <ul class="liste-acteurs">
                         <li th:each="acteur : ${film.acteurs}">
