@@ -10,6 +10,7 @@
 
     <h1 th:text="${salle.nom}">Nom de la salle</h1>
     <p>Capacité : <span th:text="${salle.capacite}">100</span> places</p>
+    <a th:href="@{/salles/{id}/modifier(id=${salle.id})}">Modifier la salle</a>
 
     <h2>Séances programmées</h2>
 

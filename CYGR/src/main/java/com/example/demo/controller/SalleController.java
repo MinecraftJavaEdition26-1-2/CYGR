@@ -34,6 +34,14 @@ public class SalleController {
         return "salles/formulaire";
     }
 
+    @GetMapping("/{id}/modifier")
+    public String modifier(@PathVariable Long id, Model model){
+        Salle salle = salleService.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Salle introuvable"));
+        model.addAttribute("salle", salle);
+        return "salles/formulaire";
+    }
+
     @PostMapping("/enregistrer")
     public String enregistrer(@ModelAttribute Salle salle){
         Salle salleEnregistree = salleService.save(salle);
