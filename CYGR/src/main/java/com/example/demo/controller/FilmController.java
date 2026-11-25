@@ -133,6 +133,12 @@ public class FilmController {
         return "redirect:/films/detail?id=" + idFilm;
     }
     
+    @GetMapping("/rechercher") // GET /films/rechercher?nom=...
+    public String rechercher(@RequestParam String nom, Model model) {
+        List<Film> films = filmService.rechercherParNom(nom);
+        model.addAttribute("films", films);
+        return "films/liste";
+    }
     
     
     

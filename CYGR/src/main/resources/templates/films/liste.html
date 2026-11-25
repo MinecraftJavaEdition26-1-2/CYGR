@@ -11,6 +11,11 @@
 
     <main class="container page">
         <div class="page-head">
+            <form th:action="@{/films/rechercher}" method="get" class="recherche">
+                <input type="text" name="nom" placeholder="Titre" th:value="${param.nom}">
+                <button type="submit" class="btn">Rechercher</button>
+                <a th:href="@{/films}" class="btn">Réinitialiser</a>
+            </form>
             <h1>Films</h1>
             <div class="actions">
                 <a th:href="@{/films/formulaireModifier}" class="btn">Modifier un film</a>
