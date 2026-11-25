@@ -11,6 +11,10 @@
     <h1 th:text="${salle.nom}">Nom de la salle</h1>
     <p>Capacité : <span th:text="${salle.capacite}">100</span> places</p>
     <a th:href="@{/salles/{id}/modifier(id=${salle.id})}">Modifier la salle</a>
+    <form th:action="@{/salles/{id}/supprimer(id=${salle.id})}" method="post"
+          onsubmit="return confirm('Supprimer cette salle ?')">
+        <button type="submit">Supprimer la salle</button>
+    </form>
 
     <h2>Séances programmées</h2>
 
