@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter acteur</title>
+</head>
+<body>
+    <h1>Ajouter acteur</h1>
+
+    <a th:href="@{/films/detail(id=${film.id})}">Retour à la page du film</a>
+
+    <p th:if="${acteursDispo.isEmpty()}">Aucun acteur ne peut être ajouté à ce film</p>
+
+    <p>Acteur déjà présent dans le film</p>
+    <p th:if="${acteurDansFilm.isEmpty()}">Aucun acteur dans ce film</p>
+    <form th:action="@{/films/supprimerActeurFilm}" method="post">
+        <div th:each="acteur : ${acteurDansFilm}">
+            <input type="checkbox" name="idActeurs" th:value="${acteur.id}">
+            <span class="ligne-titre" th:text="${acteur.nom + ' ' + acteur.prenom}">Nom Prénom</span>
+            <span class="ligne-meta" th:text="${acteur.nationalite}">Nationalité</span>
+        </div>
+
+        <input type="hidden" name="idFilm" th:value="${film.id}">
+        <button type="submit">Supprimer les acteurs sélectionnés</button>
+    </form>
+
+
+    <br>
+    <br>
+    <p>Acteur pouvant être ajouté au film</p>
+    <p th:if="${acteursDispo.isEmpty()}">Aucun acteur disponible pour le moment</p>
+    <form th:action="@{/films/enregistrerNouveauActeur}" method="post">
+        
+        <div th:each="acteur : ${acteursDispo}">
+            <input type="checkbox" name="idActeurs" th:value="${acteur.id}">
+            <span class="ligne-titre" th:text="${acteur.nom + ' ' + acteur.prenom}">Nom Prénom</span>
+            <span class="ligne-meta" th:text="${acteur.nationalite}">Nationalité</span>
+        </div>
+
+        <input type="hidden" name="idFilm" th:value="${film.id}">
+        <button type="submit">Ajouter les acteurs sélectionnés</button>
+    </form>
+
+
+
+
+
+</body>
+</html>
