@@ -1,8 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Acteur;
+import com.example.demo.entity.Film;
 import com.example.demo.repository.ActeurRepository;
 import com.example.demo.service.ActeurService;
+
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,4 +69,14 @@ public class ActeurController {
         model.addAttribute("acteur", acteurService.findById(id));
         return "acteurs/modifierActeur";
     }
+
+    @GetMapping("/voirFilms") // GET /acteurs/voirFilms?id=...
+    public String voirFilms(@RequestParam long id, Model model) {
+        Acteur acteur = acteurService.findById(id);
+        List<Film> films = acteur.getFilms();
+        model.addAttribute("films", films);
+        model.addAttribute("acteur", acteur);
+        return "acteurs/listeFilms"; // affiche templates/acteurs/listeFilms.html
+    }
+
 }
