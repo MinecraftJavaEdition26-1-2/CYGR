@@ -12,7 +12,13 @@
     <main class="container page">
         <div class="page-head">
             <h1>Séances</h1>
+            <div class="actions">
+                <a th:href="@{/seances/nouvelle}" class="btn btn-primary">Ajouter une séance</a>
+            </div>
         </div>
+
+        <p class="message succes" th:if="${succes}" th:text="${succes}"></p>
+        <p class="message erreur" th:if="${erreur}" th:text="${erreur}"></p>
 
         <p class="vide" th:if="${seances.isEmpty()}">Aucune séance disponible pour le moment</p>
 

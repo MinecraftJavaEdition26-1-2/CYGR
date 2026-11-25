@@ -5,7 +5,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,12 +22,17 @@ public class Seance {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id; 
 
+    @NotNull(message = "La date et l'heure sont obligatoires")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(nullable = false)
     private LocalDateTime dateHeureDebut;
 
+    @NotNull(message = "Le prix est obligatoire")
+    @Positive(message = "Le prix doit être supérieur à 0")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal prix;
 
+    @NotNull(message = "La version est obligatoire")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 2)
     private Version version;

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séance</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container page">
+        <a th:href="@{/seances}" class="retour">← Retour à la liste des séances</a>
+
+        <div class="page-head">
+            <h1 th:text="${seance.id == null} ? 'Nouvelle séance' : 'Modifier la séance'">Nouvelle séance</h1>
+        </div>
+
+        <p class="message erreur" th:if="${erreur}" th:text="${erreur}"></p>
+
+        <form class="formulaire" th:action="@{/seances/enregistrer}" th:object="${seance}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="champ">
+                <label for="filmId">Film</label>
+                <select id="filmId" name="filmId" required>
+                    <option value="" disabled th:selected="${filmId == null}">Choisir un film</option>
+                    <option th:each="film : ${films}"
+                            th:value="${film.id}"
+                            th:text="${film.nom}"
+                            th:selected="${film.id == filmId}">Nom du film</option>
+                </select>
+                <p class="message erreur" th:if="${#fields.hasErrors('film')}" th:errors="*{film}"></p>
+            </div>
+            <div class="champ">
+                <label for="salleId">Salle</label>
+                <select id="salleId" name="salleId" required>
+                    <option value="" disabled th:selected="${salleId == null}">Choisir une salle</option>
+                    <option th:each="salle : ${salles}"
+                            th:value="${salle.id}"
+                            th:text="${salle.nom + ' (' + salle.capacite + ' places)'}"
+                            th:selected="${salle.id == salleId}">Nom de la salle</option>
+                </select>
+                <p class="message erreur" th:if="${#fields.hasErrors('salle')}" th:errors="*{salle}"></p>
+            </div>
+            <div class="champ">
+                <label for="dateHeureDebut">Date et heure de début</label>
+                <input type="datetime-local" id="dateHeureDebut" required th:field="*{dateHeureDebut}">
+                <p class="message erreur" th:if="${#fields.hasErrors('dateHeureDebut')}" th:errors="*{dateHeureDebut}"></p>
+            </div>
+            <div class="champ">
+                <label for="version">Version</label>
+                <select id="version" required th:field="*{version}">
+                    <option th:each="version : ${versions}" th:value="${version}" th:text="${version}">VF</option>
+                </select>
+                <p class="message erreur" th:if="${#fields.hasErrors('version')}" th:errors="*{version}"></p>
+            </div>
+            <div class="champ">
+                <label for="prix">Prix (€)</label>
+                <input type="number" id="prix" required min="0.01" step="0.01" th:field="*{prix}">
+                <p class="message erreur" th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"></p>
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Enregistrer la séance</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
