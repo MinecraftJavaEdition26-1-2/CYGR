@@ -26,6 +26,12 @@ public class SalleController {
         return "salles/liste";
     }
 
+    @GetMapping("/nouvelle")
+    public String nouvelle(Model model){
+        model.addAttribute("salle", new Salle());
+        return "salles/formulaire";
+    }
+
     @GetMapping("/{id}")
     public String fiche(@PathVariable Long id, Model model){
         Salle salle = salleService.findById(id)
