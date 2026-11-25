@@ -35,4 +35,8 @@ public class FilmService {
         return filmRepository.findById(id).orElseThrow();
     }
 
+    public List<Film> rechercherParNom(String nom){
+        return filmRepository.findByNomContainingIgnoreCase(nom);
+    }
+
 }
