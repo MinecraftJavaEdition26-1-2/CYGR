@@ -4,15 +4,20 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Film;
 import com.example.demo.repository.FilmRepository;
+import com.example.demo.repository.SeanceRepository;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service 
 public class FilmService {
     
     private final FilmRepository filmRepository;
+    private final SeanceRepository seanceRepository;
 
-    public FilmService(FilmRepository filmRepository){
+    public FilmService(FilmRepository filmRepository, SeanceRepository seanceRepository){
         this.filmRepository = filmRepository;
+        this.seanceRepository = seanceRepository;
     }
 
     public List<Film> findAll(){
@@ -37,6 +42,15 @@ public class FilmService {
 
     public List<Film> rechercherParNom(String nom){
         return filmRepository.findByNomContainingIgnoreCase(nom);
+    }
+
+    public List<Film> findFilmsALAffiche(){
+        LocalDateTime maintenant = LocalDateTime.now();
+        return seanceRepository.findByDateHeureDebutBetween(maintenant, maintenant.plusDays(7)) // Récupère les séances de la semaine à venir
+                .stream() // transforme le tout en stream pour pouvoir les manipuler plus facilement
+                .map(seance -> seance.getFilm()) // récupère le film de chaque séance
+                .distinct() // supprime les doublons
+                .toList(); // transforme le tout en liste
     }
 
 }
