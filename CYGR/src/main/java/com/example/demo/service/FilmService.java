@@ -26,6 +26,17 @@ public class FilmService {
         return filmRepository.findAll();
     }
 
+    public Film modifier(Long id, Film nouveau) {
+        Film existant = findById(id);          // RessourceIntrouvableException si l'id n'existe pas
+        existant.setNom(nouveau.getNom());
+        existant.setAnneeSortie(nouveau.getAnneeSortie());
+        existant.setDuree(nouveau.getDuree());
+        existant.setSynopsis(nouveau.getSynopsis());
+        existant.setAge(nouveau.getAge());
+        existant.setAffiche(nouveau.getAffiche());
+        return filmRepository.save(existant); 
+    }
+
     public void enregistrer(Film film){
         filmRepository.save(film);
     }
