@@ -22,7 +22,7 @@
             <form class="ligne" th:action="@{/acteurs/supprimer}" th:each="acteur : ${acteurs}" method="post">
                 <input type="hidden" name="id" th:value="${acteur.id}">
                 <div class="ligne-texte">
-                    <span class="ligne-titre" th:text="${acteur.nom + ' ' + acteur.prenom}">Nom Prénom</span>
+                    <span class="ligne-titre" th:text="${acteur.prenom + ' ' + acteur.nom}">Prénom Nom</span>
                     <span class="ligne-meta" th:text="${acteur.nationalite}">Nationalité</span>
                 </div>
                 <button type="submit" class="btn btn-danger">Supprimer cet acteur</button>
