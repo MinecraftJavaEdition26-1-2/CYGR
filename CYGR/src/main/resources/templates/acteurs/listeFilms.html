@@ -3,38 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des acteurs</title>
+    <title th:text="${'Films de ' + acteur.prenom + ' ' + acteur.nom}">Films de l'acteur</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <header th:replace="~{fragments/header :: header}"></header>
-    <p th:if="${films.isEmpty()}">Cette acteur n'a joué dans aucun film</p>
 
-    <p>Liste des films de <span th:text="${acteur.nom}"></span></p>
+    <main class="container page">
+        <a th:href="@{/acteurs}" class="retour">← Retour à la liste des acteurs</a>
 
-    <div>
-        <div th:each="film : ${films}">
-            <div class="film">
+        <div class="page-head">
+            <div>
+                <h1 th:text="${acteur.prenom + ' ' + acteur.nom}">Prénom Nom</h1>
+                <div class="film-meta">
+                    <span th:text="${acteur.nationalite}">Nationalité</span>
+                    <span>· <span th:text="${films.size()}">0</span> film(s)</span>
+                </div>
+            </div>
+            <div class="actions">
+                <a th:href="@{/acteurs/modifierActeur(id=${acteur.id})}" class="btn">Modifier l'acteur</a>
+            </div>
+        </div>
+
+        <p class="vide" th:if="${films.isEmpty()}">Cet acteur n'a joué dans aucun film</p>
+
+        <!-- mêmes cartes que sur la page /films -->
+        <div class="grille-films" th:unless="${films.isEmpty()}">
+            <a class="fiche" th:each="film : ${films}" th:href="@{/films/detail(id=${film.id})}">
                 <div class="affiche">
                     <img th:src="${film.affiche}" th:alt="${film.nom}">
                 </div>
-
-                <div class="film-infos">
-                    <div>
-                        <h1 th:text="${film.nom}">Nom du film</h1>
-                        <div class="film-meta">
-                            <span><span th:text="${film.anneeSortie}">2010</span> · <span th:text="${film.duree}">148</span> min</span>
-                            <span class="age"><span th:text="${film.age}">12</span>+</span>
-                        </div>
-                    </div>
-
-                    <p class="synopsis" th:text="${film.synopsis}">Synopsis du film</p>
-
-                    <div class="actions">
-                        <a th:href="@{/films/detail(id=${film.id})}" class="btn btn-primary">Voir le détail</a>
+                <div class="fiche-corps">
+                    <h2 class="fiche-titre" th:text="${film.nom}">Nom du film</h2>
+                    <div class="fiche-meta">
+                        <span><span th:text="${film.anneeSortie}">2010</span> · <span th:text="${film.duree}">148</span> min</span>
+                        <span class="age"><span th:text="${film.age}">12</span>+</span>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
-    </div>
+    </main>
 </body>
+</html>
