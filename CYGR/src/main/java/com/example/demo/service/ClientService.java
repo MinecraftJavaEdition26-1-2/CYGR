@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Client;
 import com.example.demo.exception.RegleMetierException;
+import com.example.demo.exception.exception.RessourceIntrouvableException;
 import com.example.demo.repository.ClientRepository;
 
 @Service
@@ -22,10 +23,9 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public void enregistrer(Client client){
+    public Client enregistrer(Client client){
         if (client.getId() == null) {          // création
-            clientRepository.save(client);
-            return;
+            return clientRepository.save(client);
         }
         Client existant = findById(client.getId());   // modification
         existant.setNom(client.getNom());
@@ -33,7 +33,7 @@ public class ClientService {
         existant.setEmail(client.getEmail());
         existant.setDateNaissance(client.getDateNaissance());
         existant.setEtudiant(client.isEtudiant());
-        clientRepository.save(existant);
+        return clientRepository.save(existant);
     }
 
 
@@ -51,7 +51,7 @@ public class ClientService {
     }
 
     public Client findById(Long id) {
-        return clientRepository.findById(id).orElseThrow(() -> new RegleMetierException("Client introuvable (id " + id + ")"));
+        return clientRepository.findById(id).orElseThrow(() -> new RessourceIntrouvableException("Client introuvable (id " + id + ")"));
     }
 
 

@@ -1,0 +1,19 @@
+info:
+  name: test 1  Créer un client
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseURL}}/api/v1/clients"
+  body:
+    type: json
+    data: '{ "nom": "Durand", "prenom": "Léa", "email": "lea.durand@example.com", "dateNaissance": "2001-04-15", "etudiant": true }'
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
