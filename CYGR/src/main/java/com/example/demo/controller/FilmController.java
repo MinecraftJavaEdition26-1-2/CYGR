@@ -16,7 +16,6 @@ import com.example.demo.service.FilmService;
 import com.example.demo.service.ActeurService;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
