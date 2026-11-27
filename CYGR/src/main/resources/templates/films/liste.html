@@ -24,6 +24,8 @@
             </div>
         </div>
 
+        <div th:replace="~{fragments/messages :: messages}"></div>
+
         <p class="vide" th:if="${films.isEmpty()}">Aucun film disponible pour le moment</p>
 
         <div class="grille-films">

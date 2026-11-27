@@ -3,6 +3,8 @@ package com.example.demo.service;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Film;
+import com.example.demo.exception.RegleMetierException;
+import com.example.demo.exception.exception.RessourceIntrouvableException;
 import com.example.demo.repository.FilmRepository;
 import com.example.demo.repository.SeanceRepository;
 
@@ -33,11 +35,18 @@ public class FilmService {
     }
 
     public void deleteById(long id){
-        filmRepository.deleteById(id);
+        Film film = findById(id); // lève une RessourceIntrouvableException si l'id n'existe pas
+
+        // on ne supprime pas un film qui a des séances (clé étrangère film_id dans seance)
+        if (seanceRepository.existsByFilmId(id)) {
+            throw new RegleMetierException("Impossible de supprimer " + film.getNom() + " : ce film a des séances programmées");
+        }
+
+        filmRepository.delete(film);
     }
 
     public Film findById(long id){
-        return filmRepository.findById(id).orElseThrow();
+        return filmRepository.findById(id).orElseThrow(() -> new RessourceIntrouvableException("Film introuvable (id " + id + ")"));
     }
 
     public List<Film> rechercherParNom(String nom){

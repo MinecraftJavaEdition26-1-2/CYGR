@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Acteur;
 import com.example.demo.entity.Film;
+import com.example.demo.exception.exception.RessourceIntrouvableException;
 import java.util.List;
 import com.example.demo.repository.ActeurRepository;
 
@@ -26,7 +27,7 @@ public class ActeurService {
     }
 
     public Acteur findById(long id){
-        return acteurRepository.findById(id).orElseThrow();
+        return acteurRepository.findById(id).orElseThrow(() -> new RessourceIntrouvableException("Acteur introuvable (id " + id + ")"));
     }
 
     // C'est Film qui possède la relation (table film_acteur) : on retire d'abord

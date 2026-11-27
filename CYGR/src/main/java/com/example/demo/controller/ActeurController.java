@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Acteur;
 import com.example.demo.entity.Film;
+import com.example.demo.exception.RegleMetierException;
 import com.example.demo.repository.ActeurRepository;
 import com.example.demo.service.ActeurService;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller 
@@ -41,8 +43,14 @@ public class ActeurController {
     }
 
     @PostMapping("/enregistrer") // POST /acteurs/enregistrer
-    public String enregistrer(@ModelAttribute Acteur acteur) {
-        acteurService.enregistrer(acteur);
+    public String enregistrer(@ModelAttribute Acteur acteur, RedirectAttributes redirectAttributes) {
+        boolean creation = acteur.getId() == 0; // id est un long primitif : 0 = nouvel acteur
+        try {
+            acteurService.enregistrer(acteur);
+            redirectAttributes.addFlashAttribute("succes", creation ? "Acteur ajouté" : "Acteur modifié");
+        } catch (RegleMetierException e) {
+            redirectAttributes.addFlashAttribute("erreur", e.getMessage());
+        }
         return "redirect:/acteurs";
     }
 
@@ -53,8 +61,13 @@ public class ActeurController {
     }
 
     @PostMapping("/supprimer") // POST /acteurs/supprimer
-    public String supprimer(@RequestParam long id) {
-        acteurService.deleteById(id);
+    public String supprimer(@RequestParam long id, RedirectAttributes redirectAttributes) {
+        try {
+            acteurService.deleteById(id);
+            redirectAttributes.addFlashAttribute("succes", "Acteur supprimé");
+        } catch (RegleMetierException e) {
+            redirectAttributes.addFlashAttribute("erreur", e.getMessage());
+        }
         return "redirect:/acteurs";
     }
 
@@ -65,17 +78,27 @@ public class ActeurController {
     }
 
     @GetMapping("/modifierActeur") // GET /acteurs/modifierActeur?id=...
-    public String modifierActeur(@RequestParam long id, Model model) {
-        model.addAttribute("acteur", acteurService.findById(id));
+    public String modifierActeur(@RequestParam long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            model.addAttribute("acteur", acteurService.findById(id));
+        } catch (RegleMetierException e) {
+            redirectAttributes.addFlashAttribute("erreur", e.getMessage());
+            return "redirect:/acteurs"; // acteur introuvable : retour à la liste avec le message
+        }
         return "acteurs/modifierActeur";
     }
 
     @GetMapping("/voirFilms") // GET /acteurs/voirFilms?id=...
-    public String voirFilms(@RequestParam long id, Model model) {
-        Acteur acteur = acteurService.findById(id);
-        List<Film> films = acteur.getFilms();
-        model.addAttribute("films", films);
-        model.addAttribute("acteur", acteur);
+    public String voirFilms(@RequestParam long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            Acteur acteur = acteurService.findById(id);
+            List<Film> films = acteur.getFilms();
+            model.addAttribute("films", films);
+            model.addAttribute("acteur", acteur);
+        } catch (RegleMetierException e) {
+            redirectAttributes.addFlashAttribute("erreur", e.getMessage());
+            return "redirect:/acteurs";
+        }
         return "acteurs/listeFilms"; // affiche templates/acteurs/listeFilms.html
     }
 
