@@ -97,7 +97,13 @@ public class CarteFideliteService {
             points += SEUIL_PLACE_OFFERTE;
         }
 
-        carte.setPoints(Math.max(0, points));
+        // Les points de cette réservation ont déjà été dépensés pour une place offerte
+        if (points < 0) {
+            throw new RegleMetierException("Annulation impossible : les points de cette réservation ont servi "
+                    + "à obtenir une place offerte. Annulez d'abord la réservation avec la place offerte.");
+        }
+
+        carte.setPoints(points);
         carteFideliteRepository.save(carte);
     }
 

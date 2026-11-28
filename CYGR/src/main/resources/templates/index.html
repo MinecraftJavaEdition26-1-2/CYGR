@@ -16,6 +16,19 @@
             <a th:href="@{/films}" class="btn btn-primary">Voir les films</a>
             <a th:href="@{/acteurs}" class="btn">Voir les acteurs</a>
         </div>
+
+        <p class="vide" th:if="${films.isEmpty()}">Aucun film à l'affiche pour le moment</p>
+        <p>Film à l'affiche </p>
+        <div class="grille-films">
+            <a class="fiche" th:each="film : ${films}" th:href="@{/films/detail(id=${film.id})}">
+                <div class="affiche">
+                    <img th:src="${film.affiche}" th:alt="${film.nom}">
+                </div>
+                <div class="fiche-corps">
+                    <h2 class="fiche-titre" th:text="${film.nom}">Nom du film</h2>
+                </div>
+            </a>
+        </div>
     </main>
 </body>
 </html>

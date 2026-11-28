@@ -17,8 +17,7 @@
             </div>
         </div>
 
-        <p class="message succes" th:if="${succes}" th:text="${succes}"></p>
-        <p class="message erreur" th:if="${erreur}" th:text="${erreur}"></p>
+        <div th:replace="~{fragments/messages :: messages}"></div>
 
         <form class="recherche" th:action="@{/clients}" method="get">
             <input type="text" name="recherche" th:value="${recherche}" placeholder="Nom ou email">

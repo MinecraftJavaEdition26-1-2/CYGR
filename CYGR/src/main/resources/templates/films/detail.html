@@ -12,6 +12,8 @@
     <main class="container page">
         <a th:href="@{/films}" class="retour">← Retour à la liste des films</a>
 
+        <div th:replace="~{fragments/messages :: messages}"></div>
+
         <div class="film">
             <div class="affiche">
                 <img th:src="${film.affiche}" th:alt="${film.nom}">

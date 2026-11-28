@@ -8,6 +8,7 @@
 </head>
 <body>
     <header th:replace="~{fragments/header :: header}"></header>
+
     <main class="container page">
         <div class="page-head">
             <h1>Acteurs</h1>
@@ -18,15 +19,21 @@
             </div>
         </div>
 
+        <div th:replace="~{fragments/messages :: messages}"></div>
+
         <p class="vide" th:if="${acteurs.isEmpty()}">Aucun acteur disponible pour le moment</p>
 
-        <div class="lignes">
+        <div class="lignes" th:unless="${acteurs.isEmpty()}">
             <div class="ligne" th:each="acteur : ${acteurs}">
                 <div class="ligne-texte">
-                    <span class="ligne-titre" th:text="${acteur.nom + ' ' + acteur.prenom}">Nom Prénom</span>
-                    <span class="ligne-meta" th:text="${acteur.nationalite}">Nationalité</span>
-                    <a th:href="@{/acteurs/voirFilms(id=${acteur.id})}" class="btn">Voir ses films</a>
+                    <a class="ligne-titre" th:href="@{/acteurs/voirFilms(id=${acteur.id})}"
+                       th:text="${acteur.prenom + ' ' + acteur.nom}">Prénom Nom</a>
+                    <span class="ligne-meta">
+                        <span th:text="${acteur.nationalite}">Nationalité</span>
+                        · <span th:text="${acteur.films.size()}">0</span> film(s)
+                    </span>
                 </div>
+                <a th:href="@{/acteurs/voirFilms(id=${acteur.id})}" class="btn">Voir ses films</a>
             </div>
         </div>
     </main>
