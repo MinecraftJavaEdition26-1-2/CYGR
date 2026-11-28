@@ -16,6 +16,8 @@
             <h1 th:text="${salle.id == null} ? 'Nouvelle salle' : 'Modifier la salle'">Nouvelle salle</h1>
         </div>
 
+        <p class="message erreur" th:if="${erreur}" th:text="${erreur}"></p>
+
         <form class="formulaire" th:action="@{/salles/enregistrer}" th:object="${salle}" method="post">
             <input type="hidden" th:field="*{id}">
             <div class="champ">

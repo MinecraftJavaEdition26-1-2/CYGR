@@ -47,12 +47,17 @@ public class SalleController {
     }
 
     @PostMapping("/enregistrer")
-    public String enregistrer(@Valid @ModelAttribute Salle salle, BindingResult resultat){
+    public String enregistrer(@Valid @ModelAttribute Salle salle, BindingResult resultat, Model model){
         if (resultat.hasErrors()) {
             return "salles/formulaire";
         }
-        Salle salleEnregistree = salleService.save(salle);
-        return "redirect:/salles/" + salleEnregistree.getId();
+        try {
+            Salle salleEnregistree = salleService.enregistrer(salle);
+            return "redirect:/salles/" + salleEnregistree.getId();
+        } catch (RegleMetierException e) {
+            model.addAttribute("erreur", e.getMessage());
+            return "salles/formulaire";
+        }
     }
 
     @PostMapping("/{id}/supprimer")
