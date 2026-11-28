@@ -1,13 +1,16 @@
 package com.example.demo.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.entity.Seance;
 import com.example.demo.entity.Version;
@@ -40,6 +43,17 @@ public class SeanceController {
     @GetMapping("/nouvelle")
     public String nouvelle(Model model){
         model.addAttribute("seance", new Seance());
+        ajouterListes(model);
+        return "seances/formulaire";
+    }
+
+    @GetMapping("/{id}/modifier")
+    public String modifier(@PathVariable Long id, Model model){
+        Seance seance = seanceService.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Séance introuvable"));
+        model.addAttribute("seance", seance);
+        model.addAttribute("filmId", seance.getFilm().getId());
+        model.addAttribute("salleId", seance.getSalle().getId());
         ajouterListes(model);
         return "seances/formulaire";
     }

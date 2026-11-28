@@ -6,6 +6,7 @@ import com.example.demo.entity.Salle;
 import com.example.demo.entity.Seance;
 import com.example.demo.exception.RegleMetierException;
 import com.example.demo.repository.FilmRepository;
+import com.example.demo.repository.ReservationRepository;
 import com.example.demo.repository.SalleRepository;
 import com.example.demo.repository.SeanceRepository;
 import java.time.LocalDateTime;
@@ -18,11 +19,14 @@ public class SeanceService {
     private final SeanceRepository seanceRepository;
     private final FilmRepository filmRepository;
     private final SalleRepository salleRepository;
+    private final ReservationRepository reservationRepository;
 
-    public SeanceService(SeanceRepository seanceRepository, FilmRepository filmRepository, SalleRepository salleRepository){
+    public SeanceService(SeanceRepository seanceRepository, FilmRepository filmRepository, SalleRepository salleRepository,
+                         ReservationRepository reservationRepository){
         this.seanceRepository = seanceRepository;
         this.filmRepository = filmRepository;
         this.salleRepository = salleRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     public List<Seance> findAll(){
@@ -46,6 +50,15 @@ public class SeanceService {
             .orElseThrow(() -> new RegleMetierException("Film introuvable"));
         Salle salle = salleRepository.findById(salleId)
             .orElseThrow(() -> new RegleMetierException("Salle introuvable"));
+
+        if (seance.getId() != null) {
+            Long placesReservees = reservationRepository.totalPlaces(seance.getId());
+            if (placesReservees > salle.getCapacite()) {
+                throw new RegleMetierException("Impossible de placer la séance dans " + salle.getNom()
+                        + " : " + placesReservees + " places sont déjà réservées pour seulement "
+                        + salle.getCapacite() + " places dans la salle");
+            }
+        }
 
         seance.setFilm(film);
         seance.setSalle(salle);

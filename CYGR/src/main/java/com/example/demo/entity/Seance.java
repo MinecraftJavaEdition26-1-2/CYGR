@@ -23,7 +23,7 @@ public class Seance {
     private Long id; 
 
     @NotNull(message = "La date et l'heure sont obligatoires")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(nullable = false)
     private LocalDateTime dateHeureDebut;
 

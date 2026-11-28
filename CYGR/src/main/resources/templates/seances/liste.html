@@ -24,7 +24,7 @@
 
         <table class="tableau" th:unless="${seances.isEmpty()}">
             <tr>
-                <th>Date</th><th>Film</th><th>Salle</th><th>Version</th><th>Prix</th>
+                <th>Date</th><th>Film</th><th>Salle</th><th>Version</th><th>Prix</th><th></th>
             </tr>
             <tr th:each="seance : ${seances}">
                 <td th:text="${#temporals.format(seance.dateHeureDebut, 'dd/MM/yyyy HH:mm')}">01/01/2026 20:30</td>
@@ -32,6 +32,7 @@
                 <td th:text="${seance.salle.nom}">Salle 1</td>
                 <td th:text="${seance.version}">VF</td>
                 <td th:text="${seance.prix} + ' €'">10 €</td>
+                <td><a th:href="@{/seances/{id}/modifier(id=${seance.id})}" class="btn">Modifier</a></td>
             </tr>
         </table>
     </main>
